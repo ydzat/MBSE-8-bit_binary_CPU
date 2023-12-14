@@ -1,0 +1,9 @@
+image: registry.git.rwth-aachen.de/monticore/container-registry/gradle:7.4.2-jdk11
+
+stages:
+  - assemble
+
+Gradle_Assemble:
+  stage: assemble
+  script:
+    - gradle build --refresh-dependencies

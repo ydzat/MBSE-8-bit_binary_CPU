@@ -1,0 +1,41 @@
+classdiagram ProcessorIO {
+
+    public class NANDGate {
+        + boolean a;
+        + boolean b;
+        + boolean c;
+    }
+
+    /*
+    public class LogicGates {
+        // 定义逻辑门需要的端口和属性
+    }
+
+    public class ALU {
+        // 定义ALU需要的端口和属性
+    }
+
+    public class Register {
+        // 定义寄存器需要的端口和属性
+    }
+
+    public class ControlUnit {
+        // 定义控制单元需要的端口和属性
+    }
+
+    public class ProgramCounter {
+        // 定义程序计数器需要的端口和属性
+    }
+
+    public class CPU {
+        NANDGate nandGate;
+        LogicGates logicGates;
+        ALU alu;
+        Register register;
+        ControlUnit controlUnit;
+        ProgramCounter programCounter;
+    }
+    
+    */
+
+}

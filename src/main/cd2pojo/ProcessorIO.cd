@@ -29,6 +29,19 @@ classdiagram ProcessorIO {
         + boolean out;
     }
 
+    public class NORGate {
+        + boolean a;
+        + boolean b;
+        + boolean out;
+    }
+
+    public class NOR3Gate {
+        + boolean a;
+        + boolean b;
+        + boolean c;
+        + boolean out;
+    }
+
     public class XORGate {
         + boolean a;
         + boolean b;
@@ -102,6 +115,46 @@ classdiagram ProcessorIO {
         + boolean s1; 
         + boolean s0; 
         + boolean cout;
+    }
+
+    //memory
+
+    public class RSFF {
+
+        + boolean clr;
+        + boolean pr;
+        + boolean r;
+        + boolean s;
+        + boolean q;
+        + boolean nq;
+    }
+
+    public class DFF {
+
+        + boolean clr;
+        + boolean pr;
+        + boolean d;
+        + boolean en;
+
+        + boolean q;
+        + boolean nq;
+    }
+
+    public class EdgeFF {
+
+        + boolean clr;
+        + boolean pr;
+        + boolean d;
+        + boolean cp;
+
+        + boolean q;
+        + boolean nq;
+        + boolean nq1;
+    }
+
+    public class TFF {
+        + boolean cp;
+        + boolean q;
     }
 
 }

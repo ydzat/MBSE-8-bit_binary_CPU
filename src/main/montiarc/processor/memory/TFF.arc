@@ -8,8 +8,9 @@ component TFF {
     port in boolean clr;
     port in boolean pr;
 
-    port out boolean q;
+    port <<delayed>> out boolean q;
 
+    /*
     EdgeFF edgeFF0;
 
     clr -> edgeFF0.clr;
@@ -30,5 +31,35 @@ component TFF {
     t0.out -> edgeFF0.d;
 
     edgeFF0.q -> q;
+    */
+
+    automaton {
+        initial {
+            q = false;
+        }state S0;
+
+        state S1;
+
+        S0 -> S0 [(clr == true) || (cp == false)] /{
+            q = q;
+        };
+
+        S0 -> S1 [(pr == true) || (cp == true)] /{
+            q = true;
+        };
+
+        S1 -> S1 [(pr == true) || (cp == false)] / {
+            q = q;
+        };
+
+        S1 -> S0 [(clr == true) || (cp == true)] / {
+            q = false;
+        };
+    }
+
+    
+    
+    
+
 
 }

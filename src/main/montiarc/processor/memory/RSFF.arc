@@ -9,54 +9,36 @@ component RSFF {
     port in boolean clr;
     port in boolean pr;
 
-    port <<delayed>> out boolean q;
-    port <<delayed>> out boolean nq;
+    port out boolean q;
+    port out boolean nq;
 
-    /*
-    according to the r and s, set q and nq
-    r == 1 == s is forbidden
-    */
-    
-    init {
-        q = false;
-        nq = true;
+    automaton {
+
+        initial {
+            q = false;
+            nq = true;
+        } state QTo0;
+
+        // s -> q = 1
+        // r -> q = 0
+
+        state QTo1;
+
+        // Priority 3: Hold state
+        QTo0 -> QTo0 [!clr && !pr && (!s || r)] / { q = false; nq = true; };
+        QTo1 -> QTo1 [!clr && !pr && (s || !r)] / { q = true; nq = false; };
+
+        // Priority 2: Set and Reset
+        QTo0 -> QTo1 [!clr && !pr && s && !r] / { q = true; nq = false; };
+        QTo1 -> QTo0 [!clr && !pr && (!s && r)] / { q = false; nq = true; };
+
+        // Priority 1: Clear and Preset
+        QTo0 -> QTo0 [clr & !pr] / { q = false; nq = true; };
+        QTo1 -> QTo0 [clr & !pr] / { q = false; nq = true; };
+
+        QTo0 -> QTo1 [!clr && pr] / { q = true; nq = false; };
+        QTo1 -> QTo1 [!clr && pr] / { q = true; nq = false; };
+
     }
-
-    boolean internalQ;
-    boolean internalNq;
-
-    compute {
-        if (clr) {
-            internalQ = false;
-            internalNq = true;
-        } else if (pr) {
-            internalQ = true;
-            internalNq = false;
-        } else {
-            // 根据 NOR 门的逻辑更新内部状态
-            internalQ = !(r || internalNq);
-            internalNq = !(s || internalQ);
-        }
-        // 更新延迟输出端口
-        q = internalQ;
-        qn = internalQn;
-    }
     
-
-    /*
-    NOR3Gate norGateR, norGateS;
-
-    r -> norGateR.a;
-    clr -> norGateR.b;
-    internalNq -> norGateR.c;
-    norGateR.out -> q;
-
-    // Connect S and pr to norGateS
-    s -> norGateS.a;
-    pr -> norGateS.b;
-    internalQ -> norGateS.c;
-    norGateS.out -> nq;
-    
-    */
-
 }

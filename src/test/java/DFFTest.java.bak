@@ -1,0 +1,73 @@
+/*
+ * @Author: Dongze Yang
+ * @Date: 2024-01-27 04:26:02
+ * @LastEditors: Dongze Yang
+ * @LastEditTime: 2024-01-27 08:22:33
+ * @Description: 
+ */
+import processor.memory.DFF;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+//import montiarc.rte.timesync.BooleanInPort;
+
+public class DFFTest {
+
+    private DFF dff;
+
+    @BeforeEach
+    void setUp() {
+        dff = new DFF();
+        dff.setUp();
+        dff.init();
+    }
+
+    static Stream<Arguments> testData() {
+        return Stream.of(
+            // 测试用例格式：d, en, clr, pr, expectedQ, expectedNq
+            Arguments.of(false, false, false, false, false, true), // 无使能，不清除，不预置，期望Q保持不变，NQ为true
+            Arguments.of(true,  false, false, false, false, true), // 无使能，D为真，不清除，不预置，期望Q保持不变，NQ为true
+            Arguments.of(false, true,  false, false, false, true), // 使能，D为假，不清除，不预置，期望Q为假，NQ为真
+            Arguments.of(true,  true,  false, false, true,  false), // 使能，D为真，不清除，不预置，期望Q为真，NQ为假
+            Arguments.of(false, true,  true,  false, false, true),  // 使能，D为假，清除，不预置，期望Q为假，NQ为真
+            Arguments.of(true,  true,  true,  false, false, true),  // 使能，D为真，清除，不预置，期望Q为假，NQ为真
+            Arguments.of(false, true,  false, true,  true,  false), // 使能，D为假，不清除，预置，期望Q为真，NQ为假
+            Arguments.of(true,  true,  false, true,  true,  false)  // 使能，D为真，不清除，预置，期望Q为真，NQ为假
+            
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("testData")
+    void testDFF(boolean d, boolean en, boolean clr, boolean pr, boolean expectedQ, boolean expectedNq) {
+        // 设置输入
+        // rsff.setR(r);
+        // rsff.setS(s);
+        // rsff.setClr(clr);
+        // rsff.setPr(pr);
+        dff.getD().update(d);
+        dff.getEn().update(en);
+        dff.getClr().update(clr);
+        dff.getPr().update(pr);
+
+
+        // System.out.println("-----------");
+        // System.out.println(rsff.getR().getValue());
+        // // 执行计算
+        dff.compute();
+
+        // System.out.println("-----------");
+        // System.out.println(expectedQ);
+        // System.out.println(rsff.getQ().getValue());
+        // System.out.println("-----------");
+
+        // 验证输出
+        Assertions.assertEquals(expectedQ, dff.getQ().getValue(),"expected Q");
+        Assertions.assertEquals(expectedNq, dff.getNq().getValue(),"expected NQ");
+    }
+}

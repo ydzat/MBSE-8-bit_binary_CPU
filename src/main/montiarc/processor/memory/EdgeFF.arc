@@ -36,5 +36,7 @@ component EdgeFF {
 
     dff0.nq -> nq;
     dff1.nq -> nq1;
+    
+    
 
 }

@@ -7,5 +7,12 @@ component NOR3Gate {
     port in boolean b;
     port in boolean c;
     port out boolean out;
-    compute { out = !(c || a || b); }
+    compute { 
+        if (c){
+            out = !c;
+        }
+        else {
+            out = !(a || b);
+        }
+    }
 }

@@ -149,7 +149,7 @@ classdiagram ProcessorIO {
 
         + boolean q;
         + boolean nq;
-        + boolean nq1;
+        // + boolean nq1;
     }
 
     public class TFF {

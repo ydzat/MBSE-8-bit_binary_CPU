@@ -72,7 +72,7 @@ component RSFF {
     automaton {
         initial {
             q = false;
-            nq = false;
+            nq = true;
         }state Forbidden;
 
         // 0_
@@ -87,7 +87,7 @@ component RSFF {
                 nq = true;
             };
 
-            /*
+            
             state Keep0;
 
             Q0 -> Q0 [(clr && !pr) || (!clr && !pr && r && !s)]/{
@@ -106,7 +106,7 @@ component RSFF {
                 q = false;
                 nq = true;
             };
-            */
+            
         };
 
         // 1_
@@ -121,7 +121,7 @@ component RSFF {
                 nq = false;
             };
 
-            /*
+            
             state Keep;
 
             Q1 -> Q1 [(!clr && pr) || (!clr && !pr && !r && s)]/{
@@ -140,22 +140,23 @@ component RSFF {
                 q = true;
                 nq = false;
             };
-            */
+            
         };
 
         Forbidden -> Forbidden[!clr && !pr && !r && !s] / {
             q = false;
-            nq = false;
+            nq = true;
         };
 
         Forbidden -> Allowed0[(clr && !pr) || (!clr && !pr && r && !s)];
         Forbidden -> Allowed1[(!clr && pr) || (!clr && !pr && !r && s)];
 
         Allowed0 -> Allowed1[(!clr && pr) || (!clr && !pr && !r && s)];
-        Allowed1 -> Allowed1[!((clr && !pr) || (!clr && !pr && r && !s))];
+        //Allowed1 -> Allowed1[!((clr && !pr) || (!clr && !pr && r && !s))];
 
         Allowed1 -> Allowed0[(clr && !pr) || (!clr && !pr && r && !s)];
-        Allowed0 -> Allowed0[!((!clr && pr) || (!clr && !pr && !r && s))];
+        //Allowed0 -> Allowed0[!((!clr && pr) || (!clr && !pr && !r && s))];
+
     }
 
 

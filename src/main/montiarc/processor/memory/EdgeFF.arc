@@ -17,7 +17,7 @@ component EdgeFF {
 
     port out boolean nq1;
 
-    DFF dff1, dff0;
+    DFF_old dff1, dff0;
 
     clr -> dff1.clr;
     clr -> dff0.clr;

@@ -1,38 +1,39 @@
 package processor.memory;
 
 import processor.logicGates.ANDGate;
-import processor.logicGates.NOTGate;
-
-
+import processor.logicGates.InvertGate;
+import processor.memory.Latch;
+import processor.circuits.AlwaysTrue;
 component DFF {
 
+    port in boolean st;
     port in boolean d;
-    port in boolean en;
 
-    port in boolean clr;
-    port in boolean pr;
+    port in boolean cl;
 
-    port out boolean q;
-    port out boolean nq;
+    port out boolean out;
 
-    ANDGate and1, and0;
-    RSFF rsff0;
+    /*
+    AlwaysTrue t;
+    boolean tmp = false;
+    */
 
-    clr -> rsff0.clr;
-    pr -> rsff0.pr;
+    Latch l0, l1;
+    ANDGate and0, and1;
+    InvertGate inv;
+    
+    st -> and0.a;
+    cl -> inv.a;
+    inv.out -> and0.b;
 
-    d -> and0.a;
-    en -> and0.b;
-    and0.out -> rsff0.s;
+    st -> and1.a;
+    cl -> and1.b;
 
-    NOTGate not0;
-    d -> not0.a;
-    not0.out -> and1.a;
-    en -> and1.b;
-    and1.out -> rsff0.r;
+    and0.out -> l0.st;
+    d -> l0.d;
 
-    rsff0.q -> q;
-    rsff0.nq -> nq;
+    and1.out -> l1.st;
+    l0.out -> l1.d;
 
-
+    l1.out -> out;
 }

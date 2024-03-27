@@ -1,7 +1,6 @@
 package processor.arithmetics;
 
 import processor.arithmetics.HalfAdder;
-import processor.logicGates.ORGate;
 
 component FullAdder {
     port in boolean a; 
@@ -12,14 +11,15 @@ component FullAdder {
 
     HalfAdder ha1;
     HalfAdder ha2;
-    ORGate orGate;
+    HalfAdder ha3;
 
     a -> ha1.a;
     b -> ha1.b;
     ha1.sum -> ha2.a;
     cin -> ha2.b;
-    ha1.carry -> orGate.a;
-    ha2.carry -> orGate.b;
-    ha2.sum -> sum;
-    orGate.out -> cout;
+    ha1.carry -> ha3.a;
+    ha2.carry -> ha3.b;
+    ha2.sum -> cout;
+    ha3.sum -> sum;
+
 }

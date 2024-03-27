@@ -52,6 +52,4 @@ component MultiBitAdder {
     fa1.sum -> s1;
     fa0.sum -> s0;
 
-
-
 }

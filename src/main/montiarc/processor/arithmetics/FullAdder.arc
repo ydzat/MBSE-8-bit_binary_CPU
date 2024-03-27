@@ -21,4 +21,5 @@ component FullAdder {
     ha2.carry -> ha3.b;
     ha2.sum -> cout;
     ha3.sum -> sum;
+
 }

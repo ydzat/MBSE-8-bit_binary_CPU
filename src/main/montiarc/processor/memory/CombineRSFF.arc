@@ -18,15 +18,12 @@ component CombineRSFF {
     clr -> rsff.clr;
     pr -> rsff.pr;
 
-    //rsff.q -> q;
-    //rsff.nq -> nq;
-
     rsff.q -> lo.inputQ;
     rsff.nq -> lo.inputNQ;
 
-    //port out boolean q;
-    //port out boolean nq;
+    port out boolean q;
+    port out boolean nq;
 
-
-
+    rsff.q -> q;
+    rsff.nq -> nq;
 }

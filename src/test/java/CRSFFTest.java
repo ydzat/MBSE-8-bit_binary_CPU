@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-01-27 04:26:02
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-27 16:26:14
+ * @LastEditTime: 2024-03-27 17:03:00
  * @Description: 
  */
 package processor.memory;
@@ -39,35 +39,17 @@ public class CRSFFTest {
         LogStub.enableFailQuick(false);
     }
 
-
     @Test
     public void testRSFF(){
         testRS();
     }
 
-
-
     public void testRS(){
         CombineRSFF rsff = new CombineRSFF();
         rsff.setUp();
         rsff.init();
-        //         //测试用例格式：r, s, clr, pr, expectedQ, expectedNq 
-        //         //初始清除：初始状态下进行清除。
-        //         Arguments.of(false, false, true, false, false, true),
-        //         //设置：在清除后设置。
-        //         Arguments.of(false, true, false, false, true, false),
-        //         //重置：在设置后重置。
-        //         Arguments.of(true, false, false, false, false, true),
-        //         //再次清除：在重置后进行清除。
-        //         Arguments.of(false, false, true, false, false, true),
-        //         //预置：在清除后预置。
-        //         Arguments.of(false, false, false, true, true, false),
-        //         //保持状态：所有输入为 0，保持当前状态（在此案例中，最后的状态是预置，即 q=true, nq=false）。
-        //         Arguments.of(false, false, false, false, true, false)
         
-        
-        
-        //测试用例格式：r, s, clr, pr, expectedQ, expectedNq
+        //r, s, clr, pr, expectedQ, expectedNq
         boolean [][] input = {
             {false, false, true, false, false, true},
             {false, true, false, false, true, false},
@@ -76,22 +58,9 @@ public class CRSFFTest {
             {false, false, false, true, true, false},
             {false, false, false, false, true, false}
         };
-    
-        // boolean [][] input = {
-        //     {false, false, true, false, false, true},  // 初始状态，Q为false，NQ为true
-        //     {false, true, false, false, true, false},  // 设置Q为true，NQ为false
-        //     {true, false, false, false, false, true},  // 设置Q为false，NQ为true
-        //     {false, true, false, false, true, false},  // 设置Q为true，NQ为false
-        //     {false, false, true, false, false, true},  // 清除Q，Q为false，NQ为true
-        //     {false, false, false, true, true, false},  // 预置Q，Q为true，NQ为false
-        //     {true, false, false, false, false, true},  // 设置Q为false，NQ为true
-        //     {false, true, false, false, true, false},  // 设置Q为true，NQ为false
-        //     {false, false, false, false, true, false}  // 保持当前状态，Q为true，NQ为false
-        // };
 
         boolean lastQ = false, lastNQ = false;
         for (int i = 0; i < input.length; i++) {
-
 
             System.out.println("------------"+ i +"--------------");
             rsff.getR().update(input[i][0]);

@@ -5,60 +5,18 @@ import processor.logicGates.NOR3Gate;
 
 
 
-component RSFF {
+component RSFF2 {
 
     port in boolean r;
     port in boolean s;
     port in boolean clr;
     port in boolean pr;
 
+    port in boolean iq;
+    port in boolean inq;
+
     port out boolean q;
     port out boolean nq;
-
-    /*
-    component LastOut {
-        port in boolean inputQ;
-        port in boolean inputNQ;
-        port <<delayed>> out boolean outputQ;
-        port <<delayed>> out boolean outputNQ;
-
-        init {
-            outputQ = false;
-            outputNQ = true;
-        }
-
-        compute {
-            outputQ = inputQ;
-            outputNQ = inputNQ;   
-        }
-    }
-
-    component ChangeState{
-        port in boolean r;
-        port in boolean s;
-        port in boolean clr;
-        port in boolean pr;
-        port in boolean a;
-        port in boolean b;
-        port in boolean q;
-        port in boolean nq;
-        port out boolean qout;
-        port out boolean nqout;
-        compute {
-            
-
-            if ((!clr && !pr && !r && !s) ||  (clr && pr && !r && !s)){
-                qout = q;
-                nqout = nq;
-            }
-            else if(!(!r && !s) || (clr && !pr) || (!clr && pr)){
-                qout = a;
-                nqout = b;
-            }
-        }
-    }
-    
-    */
 
     /*
     clr pr r  s  q  nq
@@ -71,42 +29,6 @@ component RSFF {
     
     */
 
-    
-    //--------------------------------------------------------------
-
-
-    /*
-    // Connectors
-    
-    LastOut lastOut;
-    NORGate norS,norR;
-    ChangeState cs;
-
-    r -> cs.r;
-    s -> cs.s;
-    clr -> cs.clr;
-    pr -> cs.pr;
-
-    lastOut.outputQ -> cs.q;
-    lastOut.outputNQ -> cs.nq;
-
-    clr -> norR.a;
-    r -> norR.b;
-    pr -> norS.a;
-    s -> norS.b;
-    
-    norR.out -> cs.a;
-    norS.out -> cs.b;
-
-    cs.qout -> q;
-    cs.nqout -> nq;
-
-    cs.qout -> lastOut.inputQ;
-    cs.nqout -> lastOut.inputNQ;
-    */
-
-
-    
     /*
     component LastOut {
         port in boolean inputQ;
@@ -130,24 +52,20 @@ component RSFF {
     
 
     
-    LastOut lastOut;   
+    //LastOut lastOut;   
     NOR3Gate nor1, nor2;
 
     // Connectors
     r -> nor1.a;
     clr -> nor1.c;
-    lastOut.outputNQ -> nor1.b;
+    inq -> nor1.b;
 
     s -> nor2.a;
     pr -> nor2.c;
-    lastOut.outputQ -> nor2.b;
+    iq -> nor2.b;
     
     nor1.out -> q;
     nor2.out -> nq;
-
-    nor1.out -> lastOut.inputQ;
-    nor2.out -> lastOut.inputNQ;
-    
 
 
     /*

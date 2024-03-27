@@ -2,12 +2,12 @@
  * @Author: Dongze Yang
  * @Date: 2024-01-27 04:26:02
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-27 03:13:55
+ * @LastEditTime: 2024-03-27 14:07:09
  * @Description: 
  */
 package processor.memory;
 
-import processor.memory.RSFF;
+import processor.memory.RSFF2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,9 +20,9 @@ import java.util.stream.Stream;
 
 //import montiarc.rte.timesync.BooleanInPort;
 
-public class RSFFTest {
+public class RSFF2Test {
 
-    private RSFF rsff;
+    private RSFF2 rsff;
 
     // @BeforeEach
     // void setUp() {
@@ -40,7 +40,7 @@ public class RSFFTest {
 
 
     protected void testRS(){
-        RSFF rsff = new RSFF();
+        RSFF2 rsff = new RSFF2();
         rsff.setUp();
         rsff.init();
         //         //测试用例格式：r, s, clr, pr, expectedQ, expectedNq 
@@ -90,10 +90,7 @@ public class RSFFTest {
             rsff.getPr().update(input[i][3]);
             //System.out.println(rsff.getCurrentState());
             rsff.compute();
-            System.out.println("input: r = " + input[i][0] + " s = " + input[i][1] + " clr = " + input[i][2] + " pr = " + input[i][3]);
-            System.out.println("lastOut: Q = " + rsff.lastOut.getOutputQ().getValue() + " NQ = " + rsff.lastOut.getOutputNQ().getValue());
-            System.out.println("Excepcted: Q = " + input[i][4] + " NQ = " + input[i][5]);
-            System.out.println("           Q = " + rsff.getQ().getValue() + " NQ = " + rsff.getNq().getValue());
+            rsff.tick();
             //Assertions.assertEquals(input[i][4], rsff.getQ().getValue(),"expected Q");
             //Assertions.assertEquals(input[i][5], rsff.getNq().getValue(),"expected NQ");
         }

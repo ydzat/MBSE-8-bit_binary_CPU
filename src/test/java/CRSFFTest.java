@@ -2,17 +2,20 @@
  * @Author: Dongze Yang
  * @Date: 2024-01-27 04:26:02
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-27 03:13:55
+ * @LastEditTime: 2024-03-27 16:26:14
  * @Description: 
  */
 package processor.memory;
 
-import processor.memory.RSFF;
+import processor.memory.CombineRSFF;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import montiarc.rte.log.Log;
+import de.se_rwth.commons.logging.LogStub;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,16 +23,21 @@ import java.util.stream.Stream;
 
 //import montiarc.rte.timesync.BooleanInPort;
 
-public class RSFFTest {
+public class CRSFFTest {
 
-    private RSFF rsff;
+    private CombineRSFF rsff;
 
-    // @BeforeEach
-    // void setUp() {
-    //     rsff = new RSFF();
-    //     rsff.setUp();
-    //     rsff.init();
-    // }
+    @BeforeEach
+    void setUp() {
+        // rsff = new RSFF();
+        // rsff.setUp();
+        // rsff.init();
+        
+        // initialize the Log such that the MontiArc output can be seen
+        LogStub.initPlusLog();
+        Log.setTraceEnabled(true);
+        LogStub.enableFailQuick(false);
+    }
 
 
     @Test
@@ -39,8 +47,8 @@ public class RSFFTest {
 
 
 
-    protected void testRS(){
-        RSFF rsff = new RSFF();
+    public void testRS(){
+        CombineRSFF rsff = new CombineRSFF();
         rsff.setUp();
         rsff.init();
         //         //测试用例格式：r, s, clr, pr, expectedQ, expectedNq 
@@ -81,19 +89,31 @@ public class RSFFTest {
         //     {false, false, false, false, true, false}  // 保持当前状态，Q为true，NQ为false
         // };
 
-
+        boolean lastQ = false, lastNQ = false;
         for (int i = 0; i < input.length; i++) {
+
+
             System.out.println("------------"+ i +"--------------");
             rsff.getR().update(input[i][0]);
             rsff.getS().update(input[i][1]);
             rsff.getClr().update(input[i][2]);
             rsff.getPr().update(input[i][3]);
             //System.out.println(rsff.getCurrentState());
+            // if(i > 0){
+            //     rsff.lo.getInputQ().update(lastQ);
+            //     rsff.lo.getInputNQ().update(lastNQ);
+            // }
+
+
             rsff.compute();
-            System.out.println("input: r = " + input[i][0] + " s = " + input[i][1] + " clr = " + input[i][2] + " pr = " + input[i][3]);
-            System.out.println("lastOut: Q = " + rsff.lastOut.getOutputQ().getValue() + " NQ = " + rsff.lastOut.getOutputNQ().getValue());
-            System.out.println("Excepcted: Q = " + input[i][4] + " NQ = " + input[i][5]);
-            System.out.println("           Q = " + rsff.getQ().getValue() + " NQ = " + rsff.getNq().getValue());
+
+            lastQ = rsff.rsff.getQ().getValue();
+            lastNQ = rsff.rsff.getNq().getValue();
+
+            System.out.println("Expected Q: " + input[i][4] + " Expected NQ: " + input[i][5]);
+            System.out.println("lastQ =     " + lastQ +       " lastNQ =     " + lastNQ);
+
+            rsff.tick();
             //Assertions.assertEquals(input[i][4], rsff.getQ().getValue(),"expected Q");
             //Assertions.assertEquals(input[i][5], rsff.getNq().getValue(),"expected NQ");
         }

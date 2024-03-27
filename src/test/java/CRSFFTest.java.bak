@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-01-27 04:26:02
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-27 17:03:00
+ * @LastEditTime: 2024-03-27 17:08:50
  * @Description: 
  */
 package processor.memory;
@@ -62,7 +62,7 @@ public class CRSFFTest {
         boolean lastQ = false, lastNQ = false;
         for (int i = 0; i < input.length; i++) {
 
-            System.out.println("------------"+ i +"--------------");
+            System.out.println("------------ "+ i +"--------------");  
             rsff.getR().update(input[i][0]);
             rsff.getS().update(input[i][1]);
             rsff.getClr().update(input[i][2]);

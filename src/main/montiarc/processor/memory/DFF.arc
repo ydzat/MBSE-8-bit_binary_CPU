@@ -18,7 +18,8 @@ component DFF {
     boolean tmp = false;
     */
 
-    Latch l0, l1;
+    //Latch l0, l1;
+    CombineLatch l0,l1;
     ANDGate and0, and1;
     InvertGate inv;
     

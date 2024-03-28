@@ -5,58 +5,63 @@
  * @LastEditTime: 2024-01-27 13:33:54
  * @Description: 
 -->
-# CPU 组件列表
 
-以下是构建 8 位二进制 CPU 模型所需的主要组件列表：
+# Circuits
+- [x] Always False
+- [x] Always True
+- [x] Relay Default Off
+- [x] Relay Default On
 
-## 基础逻辑门
-- [x] AND 门
-- [x] OR 门
-- [x] NOT 门
-- [x] NAND 门（可选）
-- [x] NOR 门（可选）
-- [x] XOR 门（可选）
 
-## 复合逻辑单元
-- [x] 多输入的 AND、OR 门（可选）
-- [x] 半加器、全加器等复杂逻辑组合电路
+# Logic Gates
+- [x] Nand
+- [x] Invert
+- [x] Invert 8 bit
+- [x] And
+- [x] And 8 bit
+- [x] And 3 Input
+- [x] Or
+- [x] Or 8 bit
+- [x] Xor
+- [x] Xor 8 bit
+- [x] Nor
+- [x] Nor 3 Input
+- [x] Not
+- [x] Decoder38
 
-## 触发器
-- [x] D 触发器
-- [ ] JK 触发器（可选）
-- [x] T 触发器（可选）
-- [ ] 上边沿触发器（可选）
 
-## 寄存器和寄存器文件
-- [x] 通用寄存器（多个 8 位寄存器）
-- [x] 特殊寄存器（如程序计数器 PC、指令寄存器 IR）
+# Arithmetics
+- [x] Half Adder
+- [x] Full Adder
+- [x] Multi-bit Adder
+- [x] Increment
+- [x] Substraction
+- [x] Equal to Zero
 
-## 内存管理单元
-- [ ] 地址寄存器
-- [ ] 内存数据寄存器
-- [ ] 内存地址解码器（可选）
+# Switching
+- [x] Selector
+- [x] Selector 8 bit
+- [x] Switch
 
-## 算术逻辑单元（ALU）
-- [ ] 基本算术运算（加、减）
-- [ ] 基本逻辑运算（与、或、非、异或）
+# Arithmetic Logic Unit
+- [x] Logic Unit
+- [x] Arithmetic Unit
+- [?] ALU
+- [?] Condition
 
-## 控制单元
-- [ ] 指令解码器
-- [ ] 控制逻辑电路
+# Memory
+- [x] Latch / RSFF
+- [x] Data Flip-Flop
+- [x] Register
+- [x] Register 8 address
+- [x] Counter
+- [x] RAM
 
-## 输入输出系统（可选）
-- [ ] 数据输入端口
-- [ ] 数据输出端口
 
-## 时钟和同步组件
-- [ ] 时钟发生器
-- [ ] 同步电路（如时钟分频器）
+# Processor
+- [x] Combined Memory
+- [] Instruction
+- [] Control Unit
+- [] Computer
+- [] Input and Output
 
-## 总线系统
-- [ ] 数据总线
-- [ ] 地址总线
-- [ ] 控制总线
-
-## 辅助组件
-- [ ] 状态寄存器（如标志寄存器）
-- [ ] 缓冲器和数据转换器

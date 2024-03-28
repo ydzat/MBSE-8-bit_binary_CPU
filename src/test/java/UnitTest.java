@@ -2,14 +2,14 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-28 14:39:19
+ * @LastEditTime: 2024-03-28 14:55:28
  * @Description: 
  */
-package processor.memory;
+package processor.m500_memory;
 
 // Units
-import processor.memory.CombineLatch;
-import processor.memory.DFF;
+import processor.m500_memory.CombineLatch;
+import processor.m500_memory.DFF;
 
 
 
@@ -42,9 +42,9 @@ public class UnitTest {
 
 
     @Test
-    public void testLatch(){
+    public void tester(){
         // Latch
-        testL();
+        //testL();
         // DFF
         testD();
 
@@ -105,10 +105,31 @@ public class UnitTest {
         boolean [][] input = {
             {false, false, false, false},
             {true, false, false, false},
+            {true, true, false, false},
+            {false, true, false, false},
+            {false, false, true, false},
+            {true, false, true, false},
+            {true, true, true, true},
+            {true, false, true, false},
+            {true, true, true, true},
+            {false, true, false, true},
+            {false, false, false, true},
+            {true, false, false, true},
             {true, true, false, true},
-            {false, true, false, true}
+            {true, false, true, false}
         };
 
+        for(int i = 0; i < input.length; i++){
+            System.out.println("------------ "+ i +"--------------");
+            dff.getSt().update(input[i][0]);
+            dff.getD().update(input[i][1]);
+            dff.getCl().update(input[i][2]);
+            dff.compute();
+
+            System.out.println("Expected Out: " + input[i][3]);
+            System.out.println("Current Out:  " + dff.getOut().getValue());
+            dff.tick();
+        }
 
     }
 

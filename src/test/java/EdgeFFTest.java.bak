@@ -5,7 +5,7 @@
  * @LastEditTime: 2024-03-25 14:34:40
  * @Description: 
  */
-import processor.memory.EdgeFF;
+import processor.m500_memory.EdgeFF;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;

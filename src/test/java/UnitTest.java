@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-28 14:35:55
+ * @LastEditTime: 2024-03-28 14:39:19
  * @Description: 
  */
 package processor.memory;
@@ -106,7 +106,7 @@ public class UnitTest {
             {false, false, false, false},
             {true, false, false, false},
             {true, true, false, true},
-            {false, true, false, true},
+            {false, true, false, true}
         };
 
 

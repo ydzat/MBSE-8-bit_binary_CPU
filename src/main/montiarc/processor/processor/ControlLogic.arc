@@ -89,7 +89,7 @@ component ControlLogic {
     aluInstruction.a5 -> select2.d15;
     aluInstruction.a6 -> select2.d16;
     aluInstruction.a7 -> select2.d17;
-    inv.output[0] -> select2.d0;
+    inv.output -> select2.d0;
     
    
     

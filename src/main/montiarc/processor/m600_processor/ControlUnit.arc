@@ -1,4 +1,4 @@
-package processor.processor;
+package processor.m600_processor;
 
 import processor.arithmetic_logic_unit.ALU;
 import processor.switching.Selector8;

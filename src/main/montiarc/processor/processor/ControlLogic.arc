@@ -63,7 +63,7 @@ component ControlLogic {
     sa0 ->aluInstruction.sa0;
    
     // Inverter connection
-    boolean 0 -> inv.input; // Assuming state[0] is the relevant bit
+    0 -> inv.input; // Assuming state[0] is the relevant bit
 
 
     // Connect input to selectors 

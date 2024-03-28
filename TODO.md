@@ -64,4 +64,3 @@
 - [] Control Unit
 - [] Computer
 - [] Input and Output
-

@@ -1,0 +1,10 @@
+package processor.m500_memory;
+
+component CombineDFF{
+
+    DFF dff;
+    lastOutOne loo;
+
+    
+
+}

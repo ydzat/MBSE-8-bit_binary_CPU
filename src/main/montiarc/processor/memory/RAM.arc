@@ -1,9 +1,9 @@
-
 package processor.memory;
 
 import processor.switching.Selector8;
 import processor.switching.Switch;
 
+// 2^1
 
 component RAM {
 

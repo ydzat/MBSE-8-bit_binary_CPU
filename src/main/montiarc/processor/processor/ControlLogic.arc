@@ -12,9 +12,9 @@ component ControlLogic {
     port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
     port in boolean sa7, sa6, sa5, sa4, sa3, sa2, sa1, sa0;
     port out boolean R7,R6,R5,R4,R3,R2,R1,R0;
-    port out boolean dst.a;
-    port out boolean dst.d;
-    port out boolean dst.sa;
+    port out boolean a;
+    port out boolean d;
+    port out boolean sa;
     port out boolean j;
     
     Selector8 select1, select2;
@@ -63,7 +63,7 @@ component ControlLogic {
     sa0 ->aluInstruction.sa0;
    
     // Inverter connection
-    boolean state[0] -> inv.input; // Assuming state[0] is the relevant bit
+    boolean 0 -> inv.input; // Assuming state[0] is the relevant bit
 
 
     // Connect input to selectors 

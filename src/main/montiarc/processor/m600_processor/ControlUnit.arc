@@ -1,16 +1,16 @@
 package processor.m600_processor;
 
-import processor.arithmetic_logic_unit.ALU;
-import processor.switching.Selector8;
-import processor.processor.instruction;
-import processor.logicGates.ANDGates;
-import processor.logicGates.InvertGate;
+import processor.m400_arithmetic_logic_unit.ALU;
+import processor.m300_switching.Selector8;
+import processor.m600_processor.Instruction;
+import processor.m100_logicGates.ANDGates;
+import processor.m100_logicGates.InvertGate;
 
 component ControlUnit {
-    port in boolean i7,i6,i5,i4,i3,i2,i1,i0;
+    port in boolean i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0;
     port in boolean a7,a6,a5,a4,a3,a2,a1,a0; 
     port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
-    port in boolean sa7, sa6, sa5, sa4, sa3, sa2, sa1, sa0;
+    port in boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
     port out boolean r7,r6,r5,r4,r3,r2,r1,r0;
     port out boolean a;
     port out boolean d;
@@ -25,7 +25,15 @@ component ControlUnit {
     instruction aluInstruction;
   
   
-    //connect input to alu instructions
+    //Connect input to alu instructions
+    i15 ->aluInstruction.i15;
+    i14 ->aluInstruction.i14;
+    i13 ->aluInstruction.i13;
+    i12 ->aluInstruction.i12;
+    i11 ->aluInstruction.i11;
+    i10 ->aluInstruction.i10;
+    i9 ->aluInstruction.i9;
+    i8 ->aluInstruction.i8;
     i7 ->aluInstruction.i7;
     i6 ->aluInstruction.i6;
     i5 ->aluInstruction.i5;
@@ -62,38 +70,48 @@ component ControlUnit {
     sa1 ->aluInstruction.sa1;
     sa0 ->aluInstruction.sa0;
 
-    // Connect input to selectors 
-    i7 -> select1.s;
-    aluInstruction.r0 -> select1.d10;
-    aluInstruction.r1 -> select1.d11;
-    aluInstruction.r2 -> select1.d12;
-    aluInstruction.r3 -> select1.d13;
-    aluInstruction.r4 -> select1.d14;
-    aluInstruction.r5 -> select1.d15;
-    aluInstruction.r6 -> select1.d16;
-    aluInstruction.r7 -> select1.d17;
+    //Connect input to selectors 
+    i15 -> select1.s;
+    aluInstruction.r0 -> select1.d00;
+    aluInstruction.r1 -> select1.d10;
+    aluInstruction.r2 -> select1.d20;
+    aluInstruction.r3 -> select1.d30;
+    aluInstruction.r4 -> select1.d40;
+    aluInstruction.r5 -> select1.d50;
+    aluInstruction.r6 -> select1.d60;
+    aluInstruction.r7 -> select1.d70;
     
-    i5 -> select1.d05;
-    i4 -> select1.d04;
-    i3 -> select1.d03;
-    i2 -> select1.d02;
-    i1 -> select1.d01;
-    i0 -> select1.d00;
+    i15 ->select1.d150;
+    i14 ->select1.d140;
+    i13 ->select1.d130;
+    i12 ->select1.d120;
+    i11 ->select1.d110;
+    i10 ->select1.d100;
+    i9 ->select1.d90;
+    i8 ->select1.d80;
+    i7 ->select1.d70;
+    i6 ->select1.d60;
+    i5 ->select1.d50;
+    i4 ->select1.d40;
+    i3 ->select1.d30;
+    i2 ->select1.d20;
+    i1 ->select1.d10;
+    i0 ->select1.d00;
 
-    i7 -> select2.s;
-    aluInstruction.a0 -> select2.d10;
+    i15 -> select2.s;
+    aluInstruction.a0 -> select2.d01;
     aluInstruction.a1 -> select2.d11;
-    aluInstruction.a2 -> select2.d12;
-    aluInstruction.a3 -> select2.d13;
-    aluInstruction.a4 -> select2.d14;
-    aluInstruction.a5 -> select2.d15;
-    aluInstruction.a6 -> select2.d16;
-    aluInstruction.a7 -> select2.d17;
+    aluInstruction.a2 -> select2.d21;
+    aluInstruction.a3 -> select2.d31;
+    aluInstruction.a4 -> select2.d41;
+    aluInstruction.a5 -> select2.d51;
+    aluInstruction.a6 -> select2.d61;
+    aluInstruction.a7 -> select2.d71;
     inv.output -> select2.d0;
     
    
     
-    // AND gate connections
+    //AND gate connections
     i7 -> and1.a;
     aluInstruction.d0 -> and1.b0;
     aluInstruction.d1 -> and1.b1;
@@ -124,7 +142,7 @@ component ControlUnit {
     aluInstruction.j6 -> and3.b6;
     aluInstruction.j7 -> and3.b7;
     
-    // Result connections
+    //Result connections
     select1.output7-> r7;
     select1.output6-> r6;
     select1.output5-> r5;
@@ -141,6 +159,3 @@ component ControlUnit {
     
     
 }
-
-
-

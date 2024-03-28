@@ -8,11 +8,13 @@ import processor.logicGates.InvertGate;
 
 component ControlLogic {
     port in boolean i7,i6,i5,i4,i3,i2,i1,i0;
-    port in boolean state a7,a6,a5,a4,a3,a2,a1,a0; 
-    port in boolean state d7,d6,d5,d4,d3,d2,d1,d0;
-    port in boolean state sa7, sa6, sa5, sa4, sa3, sa2, sa1, sa0;
+    port in boolean a7,a6,a5,a4,a3,a2,a1,a0; 
+    port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
+    port in boolean sa7, sa6, sa5, sa4, sa3, sa2, sa1, sa0;
     port out boolean R7,R6,R5,R4,R3,R2,R1,R0;
-    port out boolean dst.a, dst.d, dst.sa;
+    port out boolean dst a;
+    port out boolean dst d;
+    port out boolean dst sa;
     port out boolean j;
     
     Selector8 select1, select2;
@@ -136,14 +138,14 @@ component ControlLogic {
     select1.output1-> R1;
     select1.output0-> R0;
 
-    select2.output7-> dst a7;
-    select2.output6-> dst a6;
-    select2.output5-> dts a5;
-    select2.output4-> dst a4;
-    select2.output3-> dst a3;
-    select2.output2-> dst a2;
-    select2.output1-> dst a1;
-    select2.output0-> dst a0;
+    select2.output7-> a7;
+    select2.output6-> a6;
+    select2.output5-> a5;
+    select2.output4-> a4;
+    select2.output3-> a3;
+    select2.output2-> a2;
+    select2.output1-> a1;
+    select2.output0-> a0;
 
     and1.output -> dst.d;
     and2.output -> dst.sa;

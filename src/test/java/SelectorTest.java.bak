@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2024 Xiangyu Tong
  */
-import processor.switching.Selector;
+import processor.m300_switching.Selector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;

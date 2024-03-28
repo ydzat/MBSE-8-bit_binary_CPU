@@ -62,20 +62,20 @@ public class DFFTest {
             //System.out.println(dff.rsff.getCurrentState());
             
             
-            dff.getComponentL0().compute();
-            dff.getComponentL1().compute();
+            // dff.getComponentL0().compute();
+            // dff.getComponentL1().compute();
             dff.compute();
             
             
             
-            System.out.println("And0 Out = " + dff.getComponentAnd0().getOut().getValue());
-            System.out.println("d = " + dff.getD().getValue());
-            System.out.println("L0 Out = " + dff.getComponentL0().getOut().getValue());
-            System.out.println("And1 Out = " + dff.getComponentAnd1().getOut().getValue());
+            // System.out.println("And0 Out = " + dff.getComponentAnd0().getOut().getValue());
+            // System.out.println("d = " + dff.getD().getValue());
+            // System.out.println("L0 Out = " + dff.getComponentL0().getOut().getValue());
+            // System.out.println("And1 Out = " + dff.getComponentAnd1().getOut().getValue());
 
-            System.out.println("L1 d = " + dff.getComponentL1().getD().getValue());
-            System.out.println("L1 st = " + dff.getComponentL1().getSt().getValue());
-            System.out.println("L1 Out = " + dff.getComponentL1().getOut().getValue());
+            // System.out.println("L1 d = " + dff.getComponentL1().getD().getValue());
+            // System.out.println("L1 st = " + dff.getComponentL1().getSt().getValue());
+            // System.out.println("L1 Out = " + dff.getComponentL1().getOut().getValue());
 
             System.out.println("Out = " + dff.getOut().getValue());
 

@@ -61,10 +61,6 @@ component ControlLogic {
     sa2 ->aluInstruction.sa2;
     sa1 ->aluInstruction.sa1;
     sa0 ->aluInstruction.sa0;
-   
-    // Inverter connection
-    0 -> inv.input; // Assuming state[0] is the relevant bit
-
 
     // Connect input to selectors 
     i7 -> select1.s;
@@ -93,7 +89,7 @@ component ControlLogic {
     aluInstruction.a5 -> select2.d15;
     aluInstruction.a6 -> select2.d16;
     aluInstruction.a7 -> select2.d17;
-    inv.output -> select2.d0;
+    inv.output[0] -> select2.d0;
     
    
     

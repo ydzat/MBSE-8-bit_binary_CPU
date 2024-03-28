@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-28 14:55:28
+ * @LastEditTime: 2024-03-28 15:27:06
  * @Description: 
  */
 package processor.m500_memory;
@@ -82,8 +82,9 @@ public class UnitTest {
             latch.getD().update(input[i][1]);
             latch.compute();
 
-            System.out.println("Expected Out: " + input[i][2]);
-            System.out.println("Current Out:  " + latch.getOut().getValue());
+            //System.out.println("Expected Out: " + input[i][2]);
+            //System.out.println("Current Out:  " + latch.getOut().getValue());
+            Assertions.assertEquals(input[i][2], latch.getOut().getValue(), "Expected out");
             latch.tick();
         }
 
@@ -108,14 +109,17 @@ public class UnitTest {
             {true, true, false, false},
             {false, true, false, false},
             {false, false, true, false},
-            {true, false, true, false},
+
+            {true, false, true, true},
+
             {true, true, true, true},
-            {true, false, true, false},
+            {true, false, true, true},
             {true, true, true, true},
             {false, true, false, true},
             {false, false, false, true},
             {true, false, false, true},
             {true, true, false, true},
+            {true, false, false, true},
             {true, false, true, false}
         };
 
@@ -126,8 +130,9 @@ public class UnitTest {
             dff.getCl().update(input[i][2]);
             dff.compute();
 
-            System.out.println("Expected Out: " + input[i][3]);
-            System.out.println("Current Out:  " + dff.getOut().getValue());
+            //System.out.println("Expected Out: " + input[i][3]);
+            //System.out.println("Current Out:  " + dff.getOut().getValue());
+            Assertions.assertEquals(input[i][3], dff.getOut().getValue(), "Expected out");
             dff.tick();
         }
 

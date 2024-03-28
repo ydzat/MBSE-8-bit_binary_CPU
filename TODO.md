@@ -47,7 +47,7 @@
 - [x] Logic Unit
 - [x] Arithmetic Unit
 - [?] ALU
-- [?] Condition
+- [x] Condition
 
 # Memory
 - [x] Latch / RSFF
@@ -60,7 +60,7 @@
 
 # Processor
 - [x] Combined Memory
-- [] Instruction
+- [x] Instruction
 - [] Control Unit
 - [] Computer
 - [] Input and Output

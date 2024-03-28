@@ -19,7 +19,7 @@ component DFF {
     */
 
     //Latch l0, l1;
-    CombineLatch l0,l1;
+    CombineLatch l0, l1;
     ANDGate and0, and1;
     InvertGate inv;
     

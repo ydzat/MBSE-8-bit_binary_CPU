@@ -1,6 +1,7 @@
 
 package processor.m500_memory;
 
+import processor.m000_circuits.AlwaysTrue;
 import processor.m300_switching.Selector8;
 import processor.m300_switching.Switch;
 
@@ -15,6 +16,14 @@ component RAM {
     Switch sw;
     Selector8 selector;
     Register register1, register0;
+
+    AlwaysTrue at;
+
+    cl -> register1.w;
+    at.out -> register1.r;
+
+    cl -> register0.w;
+    at.out -> register0.r;
 
     ad -> sw.s;
     st -> sw.d;

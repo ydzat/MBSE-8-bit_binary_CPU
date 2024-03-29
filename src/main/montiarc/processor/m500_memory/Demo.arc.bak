@@ -1,0 +1,28 @@
+package processor.m500_memory;
+
+import ProcessorIO.*;
+//import processor.m100_logicGates.ANDGate;
+
+component Demo{
+    
+    port in boolean in;
+    port out boolean out;
+
+    component SubA {
+        port in ANDGate and;
+        port out boolean out;
+
+        compute {
+            //ANDGate and1 = ANDGate.ANDGate();
+            //and.a = true;
+            and.b = true;
+            out = and.out;
+        }
+    }
+
+    SubA su;
+
+    in -> su.and.a;
+    su.out -> out;
+
+}

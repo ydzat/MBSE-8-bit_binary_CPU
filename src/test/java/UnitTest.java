@@ -2,19 +2,20 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-29 01:28:09
+ * @LastEditTime: 2024-03-29 06:36:58
  * @Description: 
  */
 package processor.m500_memory;
 
 // Units
+//import processor.m500_memory.Demo;
 import processor.m500_memory.CombineLatch;
 import processor.m500_memory.DFF;
 import processor.m500_memory.Register;
 import processor.m500_memory.Register8;
 import processor.m500_memory.RAM;
 
-import processor.m600_processor.CombinedMemory;
+//import processor.m600_processor.CombinedMemory;
 
 // Test JUNIT 5
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +32,7 @@ import java.util.stream.Stream;
 
 public class UnitTest {
     // declaration
+    //private Demo demo;
     private CombineLatch latch;
     private DFF dff;
     private Register reg;
@@ -49,6 +51,7 @@ public class UnitTest {
 
     @Test
     public void tester(){
+        //testDemo();
         /*  Memory  */
         //testLatch();  // check
         //testDFF();    // check
@@ -199,44 +202,44 @@ public class UnitTest {
         }
     }
 
-    public void testReg8(){
-        reg8 = new Register8();
-        reg8.setUp();
-        reg8.init();
+    // public void testReg8(){
+    //     reg8 = new Register8();
+    //     reg8.setUp();
+    //     reg8.init();
 
-        boolean[][] input = {
-            // st, cl, x7, x6, x5, x4, x3, x2, x1, x0, expected a7, a6, a5, a4, a3, a2, a1, a0
-            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, // 当st和cl都为0时，所有输出应保持为0
-            {true, false, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false},  // 当st为1且cl为0时，所有输出应保持为0，因为没有时钟上升沿
-            {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true},  // 当st为1且cl从0变为1时，所有输出应为1，因为有时钟上升沿且st为1
-            {false, true, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true},  // 当st为0且cl为1时，所有输出应保持为1，因为st为0，所以不会存储新的数据
-            {false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true},  // 当st为0且cl为0时，所有输出应保持为1，因为没有时钟上升沿
-        };
+    //     boolean[][] input = {
+    //         // st, cl, x7, x6, x5, x4, x3, x2, x1, x0, expected a7, a6, a5, a4, a3, a2, a1, a0
+    //         {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, // 当st和cl都为0时，所有输出应保持为0
+    //         {true, false, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false},  // 当st为1且cl为0时，所有输出应保持为0，因为没有时钟上升沿
+    //         {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true},  // 当st为1且cl从0变为1时，所有输出应为1，因为有时钟上升沿且st为1
+    //         {false, true, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true},  // 当st为0且cl为1时，所有输出应保持为1，因为st为0，所以不会存储新的数据
+    //         {false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true},  // 当st为0且cl为0时，所有输出应保持为1，因为没有时钟上升沿
+    //     };
 
-        for(int i = 0; i < input.length; i++){
-            System.out.println("------------ "+ i +"--------------");
-            reg8.getSt().update(input[i][0]);
-            reg8.getCl().update(input[i][1]);
-            reg8.getX7().update(input[i][2]);
-            reg8.getX6().update(input[i][3]);
-            reg8.getX5().update(input[i][4]);
-            reg8.getX4().update(input[i][5]);
-            reg8.getX3().update(input[i][6]);
-            reg8.getX2().update(input[i][7]);
-            reg8.getX1().update(input[i][8]);
-            reg8.getX0().update(input[i][9]);
-            reg8.compute();
-            Assertions.assertEquals(input[i][10], reg8.getA7().getValue(), "Expected a7");
-            Assertions.assertEquals(input[i][11], reg8.getA6().getValue(), "Expected a6");
-            Assertions.assertEquals(input[i][12], reg8.getA5().getValue(), "Expected a5");
-            Assertions.assertEquals(input[i][13], reg8.getA4().getValue(), "Expected a4");
-            Assertions.assertEquals(input[i][14], reg8.getA3().getValue(), "Expected a3");
-            Assertions.assertEquals(input[i][15], reg8.getA2().getValue(), "Expected a2");
-            Assertions.assertEquals(input[i][16], reg8.getA1().getValue(), "Expected a1");
-            Assertions.assertEquals(input[i][17], reg8.getA0().getValue(), "Expected a0");
-            reg8.tick();
-        }
-    }
+    //     for(int i = 0; i < input.length; i++){
+    //         System.out.println("------------ "+ i +"--------------");
+    //         reg8.getSt().update(input[i][0]);
+    //         reg8.getCl().update(input[i][1]);
+    //         reg8.getX7().update(input[i][2]);
+    //         reg8.getX6().update(input[i][3]);
+    //         reg8.getX5().update(input[i][4]);
+    //         reg8.getX4().update(input[i][5]);
+    //         reg8.getX3().update(input[i][6]);
+    //         reg8.getX2().update(input[i][7]);
+    //         reg8.getX1().update(input[i][8]);
+    //         reg8.getX0().update(input[i][9]);
+    //         reg8.compute();
+    //         Assertions.assertEquals(input[i][10], reg8.getA7().getValue(), "Expected a7");
+    //         Assertions.assertEquals(input[i][11], reg8.getA6().getValue(), "Expected a6");
+    //         Assertions.assertEquals(input[i][12], reg8.getA5().getValue(), "Expected a5");
+    //         Assertions.assertEquals(input[i][13], reg8.getA4().getValue(), "Expected a4");
+    //         Assertions.assertEquals(input[i][14], reg8.getA3().getValue(), "Expected a3");
+    //         Assertions.assertEquals(input[i][15], reg8.getA2().getValue(), "Expected a2");
+    //         Assertions.assertEquals(input[i][16], reg8.getA1().getValue(), "Expected a1");
+    //         Assertions.assertEquals(input[i][17], reg8.getA0().getValue(), "Expected a0");
+    //         reg8.tick();
+    //     }
+    // }
 
     public void testRAM(){
         ram = new RAM();
@@ -294,5 +297,18 @@ public class UnitTest {
             ram.tick();
         }
     }
+
+    // public void testDemo(){
+    //     demo = new Demo();
+    //     demo.setUp();
+    //     demo.init();
+    //     demo.compute();
+
+    //     demo.getIn().update(true);
+        
+
+    //     System.out.println("------------ Demo -------------- ");
+    //     System.out.println("Out: " + demo.getOut().getValue());
+    // }
 
 }

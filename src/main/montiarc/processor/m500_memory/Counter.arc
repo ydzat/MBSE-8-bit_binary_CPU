@@ -2,6 +2,8 @@ package processor.m500_memory;
 
 import processor.m300_switching.Selector8;
 import processor.m100_logicGates.InvertGate;
+import processor.m000_circuits.AlwaysFalse;
+import processor.m000_circuits.AlwaysTrue;
 import processor.m200_arithmetics.Increment;
 
 
@@ -33,21 +35,19 @@ component Counter {
     port out boolean a1;
     port out boolean a0;
 
-    component Zero{
-        port out boolean out;
-        compute{
-            out = false;
-        }
-    }
+    AlwaysFalse af;
+    AlwaysTrue at;
 
     Increment inc;
     Selector8 selector;
     InvertGate inv;
     Register register;
 
-    Zero zero;
-    zero.out -> inv.a;
+    af.out -> inv.a;
     inv.out -> register.st;
+
+    cl -> register.w;
+    at.out -> register.r;
 
     st -> selector.s;
 

@@ -11,22 +11,10 @@ component ControlUnit {
     port in boolean a7,a6,a5,a4,a3,a2,a1,a0;
     port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
     port in boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
-    port <<delayed>> out boolean r7,r6,r5,r4,r3,r2,r1,r0;
-    port <<delayed>> out boolean a, d, sa;
+
+    port out boolean r7,r6,r5,r4,r3,r2,r1,r0;
+    port out boolean a, d, sa;
     port out boolean j;
-    init {
-        a = false;
-        d = false;
-        sa = false;
-        r7 = false;
-        r6 = false;
-        r5 = false;
-        r4 = false;
-        r3 = false;
-        r2 = false;
-        r1 = false;
-        r0 = false;
-    }
 
     AlwaysTrue t;
     Selector8 sel8;
@@ -50,6 +38,7 @@ component ControlUnit {
     i2 -> instruction.i2;
     i1 -> instruction.i1;
     i0 -> instruction.i0;
+
     a7 -> instruction.a7;
     a6 -> instruction.a6;
     a5 -> instruction.a5;
@@ -58,6 +47,7 @@ component ControlUnit {
     a2 -> instruction.a2;
     a1 -> instruction.a1;
     a0 -> instruction.a0;
+
     d7 -> instruction.d7;
     d6 -> instruction.d6;
     d5 -> instruction.d5;
@@ -66,6 +56,7 @@ component ControlUnit {
     d2 -> instruction.d2;
     d1 -> instruction.d1;
     d0 -> instruction.d0;
+
     sa7 -> instruction.sa7;
     sa6 -> instruction.sa6;
     sa5 -> instruction.sa5;
@@ -76,6 +67,7 @@ component ControlUnit {
     sa0 -> instruction.sa0;
 
     i15 -> sel8.s;
+    
     instruction.r7 -> sel8.d71;
     instruction.r6 -> sel8.d61;
     instruction.r5 -> sel8.d51;

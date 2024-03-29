@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-29 14:54:17
+ * @LastEditTime: 2024-03-30 00:03:13
  * @Description: 
  */
 package processor.m500_memory;
@@ -41,9 +41,9 @@ public class UnitTest {
     @BeforeEach
     void setUp(){
         // initialize the Log such that the MontiArc output can be seen
-        LogStub.initPlusLog();
-        Log.setTraceEnabled(true);
-        LogStub.enableFailQuick(false);
+        // LogStub.initPlusLog();
+        // Log.setTraceEnabled(true);
+        // LogStub.enableFailQuick(false);
     }
 
 

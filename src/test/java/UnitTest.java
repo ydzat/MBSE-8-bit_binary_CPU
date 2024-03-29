@@ -41,9 +41,9 @@ public class UnitTest {
     @BeforeEach
     void setUp(){
         // initialize the Log such that the MontiArc output can be seen
-        LogStub.initPlusLog();
-        Log.setTraceEnabled(true);
-        LogStub.enableFailQuick(false);
+        // LogStub.initPlusLog();
+        // Log.setTraceEnabled(true);
+        // LogStub.enableFailQuick(false);
     }
 
 
@@ -350,10 +350,24 @@ public class UnitTest {
         computer = new Computer();
         computer.setUp();
         computer.init();
+        // computer.getComponentCu().init();
+        // computer.getComponentMem().init();
 
         boolean[][] input = {
-            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false},
-            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true}
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
+
+            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
+            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
+            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,true},
+
+            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
+            {false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false},
+            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
+            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
+            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,true},
         };
 
         for(int i = 0 ; i < input.length; i++){
@@ -377,7 +391,7 @@ public class UnitTest {
 
 
             computer.compute();
-            System.out.println("=====================================================");
+            System.out.println("========================MEM=========================");
             System.out.println("A7 = " + computer.getComponentMem().getComponentRegister_a().getA7().getValue());
             System.out.println("A6 = " + computer.getComponentMem().getComponentRegister_a().getA6().getValue());
             System.out.println("A5 = " + computer.getComponentMem().getComponentRegister_a().getA5().getValue());
@@ -386,6 +400,28 @@ public class UnitTest {
             System.out.println("A2 = " + computer.getComponentMem().getComponentRegister_a().getA2().getValue());
             System.out.println("A1 = " + computer.getComponentMem().getComponentRegister_a().getA1().getValue());
             System.out.println("A0 = " + computer.getComponentMem().getComponentRegister_a().getA0().getValue());
+            System.out.println(" ");
+            System.out.println("D7 = " + computer.getComponentMem().getComponentRegister_d().getA7().getValue());
+            System.out.println("D6 = " + computer.getComponentMem().getComponentRegister_d().getA6().getValue());
+            System.out.println("D5 = " + computer.getComponentMem().getComponentRegister_d().getA5().getValue());
+            System.out.println("D4 = " + computer.getComponentMem().getComponentRegister_d().getA4().getValue());
+            System.out.println("D3 = " + computer.getComponentMem().getComponentRegister_d().getA3().getValue());
+            System.out.println("D2 = " + computer.getComponentMem().getComponentRegister_d().getA2().getValue());
+            System.out.println("D1 = " + computer.getComponentMem().getComponentRegister_d().getA1().getValue());
+            System.out.println("D0 = " + computer.getComponentMem().getComponentRegister_d().getA0().getValue());
+            System.out.println(" ");
+            System.out.println("X7 = " + computer.getComponentMem().getX7().getValue());
+            System.out.println("X6 = " + computer.getComponentMem().getX6().getValue());
+            System.out.println("X5 = " + computer.getComponentMem().getX5().getValue());
+            System.out.println("X4 = " + computer.getComponentMem().getX4().getValue());
+            System.out.println("X3 = " + computer.getComponentMem().getX3().getValue());
+            System.out.println("X2 = " + computer.getComponentMem().getX2().getValue());
+            System.out.println("X1 = " + computer.getComponentMem().getX1().getValue());
+            System.out.println("X0 = " + computer.getComponentMem().getX0().getValue());
+            System.out.println("A = " + computer.getComponentMem().getA().getValue());
+            System.out.println("D = " + computer.getComponentMem().getD().getValue());
+            System.out.println("SA = " + computer.getComponentMem().getSa().getValue());
+            System.out.println("CL = " + computer.getComponentMem().getCl().getValue());
             computer.tick();
             
         }

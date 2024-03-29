@@ -22,7 +22,8 @@ component Register {
     port in boolean d0;
 
     port in boolean cl;
-
+    port in boolean w,r;
+    
     port out boolean a7;
     port out boolean a6;
     port out boolean a5;
@@ -32,7 +33,7 @@ component Register {
     port out boolean a1;
     port out boolean a0;
 
-    port in boolean w,r;
+
 
     ANDGate and;
     TriGate tg;

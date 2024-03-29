@@ -4,7 +4,7 @@ import processor.m100_logicGates.Decoder38;
 import processor.m300_switching.Selector88;
 
 
-component Register8{
+component RAM8{
 
     port in boolean ad2,ad1,ad0;
 

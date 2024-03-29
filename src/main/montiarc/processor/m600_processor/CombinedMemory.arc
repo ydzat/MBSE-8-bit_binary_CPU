@@ -1,6 +1,6 @@
 
 package processor.m600_processor;
-
+import processor.m000_circuits.AlwaysTrue;
 import processor.m500_memory.Register;
 import processor.m500_memory.RAM8;
 
@@ -15,6 +15,7 @@ component CombinedMemory {
     RAM8 ram;
     Register register_a;
     Register register_d;
+    AlwaysTrue t;
 
     a -> register_a.st;
     x7 -> register_a.d7;
@@ -26,6 +27,8 @@ component CombinedMemory {
     x1 -> register_a.d1;
     x0 -> register_a.d0;
     cl -> register_a.cl;
+    t.out -> register_a.w;
+    t.out -> register_a.r;
 
     d -> register_d.st;
     x7 -> register_d.d7;
@@ -37,6 +40,8 @@ component CombinedMemory {
     x1 -> register_d.d1;
     x0 -> register_d.d0;
     cl -> register_d.cl;
+    t.out -> register_d.w;
+    t.out -> register_d.r;
 
     sa -> ram.st;
     x7 -> ram.d7;

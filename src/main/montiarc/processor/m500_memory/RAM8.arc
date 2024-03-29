@@ -123,7 +123,7 @@ component RAM8{
 
     r.out -> decoder1.en;
     st -> decoder0.en;
-    /*
+    
     decoder1.a7 -> reg7.r;
     decoder1.a6 -> reg6.r;
     decoder1.a5 -> reg5.r;
@@ -141,7 +141,7 @@ component RAM8{
     decoder0.a2 -> reg2.w;
     decoder0.a1 -> reg1.w;
     decoder0.a0 -> reg0.w;
-    */
+    
     ad2 -> selector.ad2;
     ad1 -> selector.ad1;
     ad0 -> selector.ad0;

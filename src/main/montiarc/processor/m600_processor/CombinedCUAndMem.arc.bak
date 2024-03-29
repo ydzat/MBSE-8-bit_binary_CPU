@@ -1,11 +1,16 @@
 package processor.m600_processor;
 import processor.m000_circuits.AlwaysTrue;
-import processor.m600_processor.CombinedMemory;
-import processor.m600_processor.ControlUnit;
-component Computer {
+import processor.m100_logicGates.ANDGate;
+import processor.m300_switching.Selector8;
+import processor.m300_switching.Selector;
+import processor.m600_processor.Instruction;
+component CombinedCUAndMem {
     port in boolean i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0;
-    port in boolean cl;
-    
+    port in boolean a7,a6,a5,a4,a3,a2,a1,a0;
+    port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
+    port in boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
+    port out boolean r7,r6,r5,r4,r3,r2,r1,r0;
+    port out boolean a, sa, d, j;
     CombinedMemory mem;
     ControlUnit cu;
 
@@ -64,5 +69,4 @@ component Computer {
     mem.sa2 -> cu.sa2;
     mem.sa1 -> cu.sa1;
     mem.sa0 -> cu.sa0;
-
 }

@@ -32,14 +32,15 @@ component Register {
     port out boolean a1;
     port out boolean a0;
 
-    AlwaysTrue r;
+    port in boolean w,r;
+
     ANDGate and;
     TriGate tg;
 
     cl -> and.a;
-    st -> and.b;
+    w -> and.b;
 
-    r.out -> tg.en;
+    r -> tg.en;
 
     DFF dff7,dff6,dff5,dff4,dff3,dff2,dff1, dff0;
 

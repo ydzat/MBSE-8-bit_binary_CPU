@@ -18,13 +18,13 @@ component RAM {
     Register register1, register0;
 
     AlwaysTrue at;
-
+    /*
     cl -> register1.w;
     at.out -> register1.r;
 
     cl -> register0.w;
     at.out -> register0.r;
-
+    */
     ad -> sw.s;
     st -> sw.d;
 

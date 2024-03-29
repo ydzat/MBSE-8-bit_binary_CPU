@@ -46,9 +46,6 @@ component Counter {
     af.out -> inv.a;
     inv.out -> register.st;
 
-    cl -> register.w;
-    at.out -> register.r;
-
     st -> selector.s;
 
     x7 -> selector.d71;

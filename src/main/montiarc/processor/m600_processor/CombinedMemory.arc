@@ -2,7 +2,7 @@
 package processor.m600_processor;
 
 import processor.m500_memory.Register;
-import processor.m500_memory.RAM;
+import processor.m500_memory.RAM8;
 
 component CombinedMemory {
 
@@ -12,7 +12,7 @@ component CombinedMemory {
     port out boolean d7,d6,d5,d4,d3,d2,d1,d0;
     port out boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
 
-    RAM ram;
+    RAM8 ram;
     Register register_a;
     Register register_d;
 
@@ -39,14 +39,14 @@ component CombinedMemory {
     cl -> register_d.cl;
 
     sa -> ram.st;
-    x7 -> ram.x7;
-    x6 -> ram.x6;
-    x5 -> ram.x5;
-    x4 -> ram.x4;
-    x3 -> ram.x3;
-    x2 -> ram.x2;
-    x1 -> ram.x1;
-    x0 -> ram.x0;
+    x7 -> ram.d7;
+    x6 -> ram.d6;
+    x5 -> ram.d5;
+    x4 -> ram.d4;
+    x3 -> ram.d3;
+    x2 -> ram.d2;
+    x1 -> ram.d1;
+    x0 -> ram.d0;
 
     /*
     compute {
@@ -62,7 +62,9 @@ component CombinedMemory {
         ram.ad = (full_addr % 2) == 1 ? true : false;
     }
     */
-    register_a.a0 -> ram.ad;
+    register_a.a0 -> ram.ad0;
+    register_a.a1 -> ram.ad1;
+    register_a.a2 -> ram.ad2;
     cl -> ram.cl;
 
     register_a.a7 -> a7;

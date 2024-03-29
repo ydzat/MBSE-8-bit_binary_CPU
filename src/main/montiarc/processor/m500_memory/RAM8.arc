@@ -1,5 +1,5 @@
 package processor.m500_memory;
-
+import processor.m000_circuits.AlwaysTrue;
 import processor.m100_logicGates.Decoder38;
 import processor.m300_switching.Selector88;
 
@@ -10,7 +10,7 @@ component RAM8{
 
     port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
 
-    port in boolean cl, st, w, r;
+    port in boolean cl, st;
 
     port out boolean a7,a6,a5,a4,a3,a2,a1,a0; 
 
@@ -19,6 +19,9 @@ component RAM8{
     Decoder38 decoder1, decoder0;
 
     Selector88 selector;
+
+    // Read is always true because of the design
+    AlwaysTrue r;
 
     d7 -> reg7.d7;
     d6 -> reg7.d6;
@@ -118,9 +121,9 @@ component RAM8{
     ad1 -> decoder0.x1;
     ad0 -> decoder0.x0;
 
-    r -> decoder1.en;
-    w -> decoder0.en;
-
+    r.out -> decoder1.en;
+    st -> decoder0.en;
+    /*
     decoder1.a7 -> reg7.r;
     decoder1.a6 -> reg6.r;
     decoder1.a5 -> reg5.r;
@@ -138,7 +141,7 @@ component RAM8{
     decoder0.a2 -> reg2.w;
     decoder0.a1 -> reg1.w;
     decoder0.a0 -> reg0.w;
-
+    */
     ad2 -> selector.ad2;
     ad1 -> selector.ad1;
     ad0 -> selector.ad0;

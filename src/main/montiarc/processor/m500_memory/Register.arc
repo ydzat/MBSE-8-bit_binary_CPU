@@ -1,5 +1,5 @@
 package processor.m500_memory;
-
+import processor.m000_circuits.AlwaysTrue;
 import processor.m100_logicGates.TriGate;
 import processor.m100_logicGates.ANDGate;
 
@@ -32,15 +32,14 @@ component Register {
     port out boolean a1;
     port out boolean a0;
 
-    port in boolean w,r;
-
+    AlwaysTrue r;
     ANDGate and;
     TriGate tg;
 
     cl -> and.a;
-    w -> and.b;
+    st -> and.b;
 
-    r -> tg.en;
+    r.out -> tg.en;
 
     DFF dff7,dff6,dff5,dff4,dff3,dff2,dff1, dff0;
 

@@ -14,6 +14,7 @@ import processor.m500_memory.DFF;
 import processor.m500_memory.Register;
 import processor.m500_memory.RAM;
 import processor.m500_memory.RAM8;
+import processor.m600_processor.Computer;
 //import processor.m600_processor.CombinedMemory;
 
 // Test JUNIT 5
@@ -376,8 +377,8 @@ public class UnitTest {
             ram8.getAd0().update(input[i][2]);
             ram8.getCl().update(input[i][3]);
             ram8.getSt().update(input[i][4]);
-            ram8.getW().update(input[i][5]);
-            ram8.getR().update(input[i][6]);
+            // ram8.getW().update(input[i][5]);
+            // ram8.getR().update(input[i][6]);
 
             ram8.getD7().update(input[i][7]);
             ram8.getD6().update(input[i][8]);
@@ -401,5 +402,152 @@ public class UnitTest {
             
         }
     }
+    /* 
+    public void testComputer(){
+        computer = new Computer();
+        ram8.setUp();
+        ram8.init();
+
+        boolean[][] input = {
+            // ad2, ad1, ad0, 
+            //      cl, st, w, r, 
+            //      d7, d6, d5, d4, d3, d2, d1, d0, 
+            //      a7, a6 ,a5,a4,a3,a2,a1,a0
+            {false, false, false, 
+                false, false, false, false, 
+                false, false, false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false}, // 全部都是false
+            {false, false, false, 
+                true, false, false, false, 
+                false, false, false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false}, // 改变cl
+            {false, false, false, 
+                true, true, false, false, 
+                false, false, false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false}, // 改变st
+            {false, false, false, 
+                true, true, true, false, 
+                false, false, false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false}, // 改变w
+            {false, false, false, 
+                true, true, true, true, 
+                false, false, false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false}, // 改变r
+            {false, false, true, 
+                true, true, true, true, 
+                false, false, false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false}, // 改变地址
+            // 000 写入 11111111后读取
+            {false, false, false, 
+                false, true, true, true, 
+                true, true, true, true, true, true, true, true, 
+                false, false, false, false, false, false, false, false}, // 改变数据
+            {false, false, false,
+                true, true, true, true,
+                true, true, true, true, true, true, true, true,
+                true, true, true, true, true, true, true, true}, // 改变数据
+            // 010 
+            {false, true, false, 
+                false, true, true, true, 
+                true, false, true, false, true, false, true, false, 
+                false, false, false, false, false, false, false, false}, // 改变地址
+            {false, true, false,
+                true, true, true, true,
+                true, false, true, false, true, false, true, false,
+                true, false, true, false, true, false, true, false}, // 改变数据
+            // 101
+            {true, false, true,
+                false, true, true, true,
+                false, false, false, true, false, false, true, false,
+                false, false, false, false, false, false, false, false}, // 改变地址
+            {true, false, true,
+                true, true, true, true,
+                false, false, false, true, false, false, true, false,
+                false, false, false, true, false, false, true, false}, // 改变数据
+            // 110
+            {true, true, false,
+                false, true, true, true,
+                false, true, true, false, true, true, true, false,
+                false, false, false, false, false, false, false, false}, // 改变地址
+            {true, true, false,
+                true, true, true, true,
+                false, true, true, false, true, true, true, false,
+                false, true, true, false, true, true, true, false}, // 改变数据
+            // random access
+            // read 010
+            {false, true, false,
+                false, true, true, true,
+                false, false, false, false, false, false, false, false,
+                true, false, true, false, true, false, true, false},
+            {false, true, false,
+                false, true, false, true,
+                false, false, false, false, false, false, false, false,
+                true, false, true, false, true, false, true, false},
+            {false, true, false,
+                false, false, false, true,
+                false, false, false, false, false, false, false, false,
+                true, false, true, false, true, false, true, false},
+            // read 110
+            {true, true, false,
+                false, false, false, true,
+                false, false, false, false, false, false, false, false,
+                false, true, true, false, true, true, true, false},
+            // read 000
+            {false, false, false,
+                false, false, false, true,
+                false, false, false, false, false, false, false, false,
+                true, true, true, true, true, true, true, true},
+            // read 101
+            {true, false, true,
+                false, false, false, true,
+                false, false, false, false, false, false, false, false,
+                false, false, false, true, false, false, true, false},
+            // overwrite 010
+            {false, true, false,
+                false, true, false, true,
+                true, false, false, true, true, false, false, true,
+                true, false, true, false, true, false, true, false},
+            {false, true, false,
+                false, true, true, true,
+                true, false, false, true, true, false, false, true,
+                true, false, true, false, true, false, true, false},
+            {false, true, false,
+                true, true, true, true,
+                true, false, false, true, true, false, false, true,
+                true, false, false, true, true, false, false, true},
+        };
+
+        for(int i = 0 ; i < input.length; i++){
+            ram8.getAd2().update(input[i][0]);
+            ram8.getAd1().update(input[i][1]);
+            ram8.getAd0().update(input[i][2]);
+            ram8.getCl().update(input[i][3]);
+            ram8.getSt().update(input[i][4]);
+            // ram8.getW().update(input[i][5]);
+            // ram8.getR().update(input[i][6]);
+
+            ram8.getD7().update(input[i][7]);
+            ram8.getD6().update(input[i][8]);
+            ram8.getD5().update(input[i][9]);
+            ram8.getD4().update(input[i][10]);
+            ram8.getD3().update(input[i][11]);
+            ram8.getD2().update(input[i][12]);
+            ram8.getD1().update(input[i][13]);
+            ram8.getD0().update(input[i][14]);
+
+            ram8.compute();
+            Assertions.assertEquals(input[i][15], ram8.getA7().getValue(), "Expected a7");
+            Assertions.assertEquals(input[i][16], ram8.getA6().getValue(), "Expected a6");
+            Assertions.assertEquals(input[i][17], ram8.getA5().getValue(), "Expected a5");
+            Assertions.assertEquals(input[i][18], ram8.getA4().getValue(), "Expected a4");
+            Assertions.assertEquals(input[i][19], ram8.getA3().getValue(), "Expected a3");
+            Assertions.assertEquals(input[i][20], ram8.getA2().getValue(), "Expected a2");
+            Assertions.assertEquals(input[i][21], ram8.getA1().getValue(), "Expected a1");
+            Assertions.assertEquals(input[i][22], ram8.getA0().getValue(), "Expected a0");
+            ram8.tick();
+            
+        }
+    }
+    */
 
 }

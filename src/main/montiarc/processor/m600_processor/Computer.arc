@@ -1,0 +1,183 @@
+package processor.m600_processor;
+import processor.m000_circuits.AlwaysTrue;
+import processor.m600_processor.CombinedMemory;
+import processor.m600_processor.ControlUnit;
+component Computer {
+    port in boolean i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0;
+    port in boolean cl;
+    
+    ControlUnit cu;
+    CombinedMemory mem;
+    /*
+
+    i15 -> cu.i15;
+    i14 -> cu.i14;
+    i13 -> cu.i13;
+    i12 -> cu.i12;
+    i11 -> cu.i11;
+    i10 -> cu.i10;
+    i9 -> cu.i9;
+    i8 -> cu.i8;
+    i7 -> cu.i7;
+    i6 -> cu.i6;
+    i5 -> cu.i5;
+    i4 -> cu.i4;
+    i3 -> cu.i3;
+    i2 -> cu.i2;
+    i1 -> cu.i1;
+    i0 -> cu.i0;
+    mem.a7 -> cu.a7;
+    mem.a6 -> cu.a6;
+    mem.a5 -> cu.a5;
+    mem.a4 -> cu.a4;
+    mem.a3 -> cu.a3;
+    mem.a2 -> cu.a2;
+    mem.a1 -> cu.a1;
+    mem.a0 -> cu.a0;
+    mem.d7 -> cu.d7;
+    mem.d6 -> cu.d6;
+    mem.d5 -> cu.d5;
+    mem.d4 -> cu.d4;
+    mem.d3 -> cu.d3;
+    mem.d2 -> cu.d2;
+    mem.d1 -> cu.d1;
+    mem.d0 -> cu.d0;
+    mem.sa7 -> cu.sa7;
+    mem.sa6 -> cu.sa6;
+    mem.sa5 -> cu.sa5;
+    mem.sa4 -> cu.sa4;
+    mem.sa3 -> cu.sa3;
+    mem.sa2 -> cu.sa2;
+    mem.sa1 -> cu.sa1;
+    mem.sa0 -> cu.sa0;
+
+    cu.r7 -> mem.x7;
+    cu.r6 -> mem.x6;
+    cu.r5 -> mem.x5;
+    cu.r4 -> mem.x4;
+    cu.r3 -> mem.x3;
+    cu.r2 -> mem.x2;
+    cu.r1 -> mem.x1;
+    cu.r0 -> mem.x0;
+    cu.a -> mem.a;
+    cu.d -> mem.d;
+    cu.sa -> mem.sa;
+    cl -> mem.cl;
+    */
+
+    automaton {
+        initial {
+            cu.i15 = i15;
+            cu.i14 = i14;
+            cu.i13 = i13;
+            cu.i12 = i12;
+            cu.i11 = i11;
+            cu.i10 = i10;
+            cu.i9 = i9;
+            cu.i8 = i8;
+            cu.i7 = i7;
+            cu.i6 = i6;
+            cu.i5 = i5;
+            cu.i4 = i4;
+            cu.i3 = i3;
+            cu.i2 = i2;
+            cu.i1 = i1;
+            cu.i0 = i0;
+            cu.a7 = mem.a7;
+            cu.a6 = mem.a6;
+            cu.a5 = mem.a5;
+            cu.a4 = mem.a4;
+            cu.a3 = mem.a3;
+            cu.a2 = mem.a2;
+            cu.a1 = mem.a1;
+            cu.a0 = mem.a0;
+            cu.d7 = mem.d7;
+            cu.d6 = mem.d6;
+            cu.d5 = mem.d5;
+            cu.d4 = mem.d4;
+            cu.d3 = mem.d3;
+            cu.d2 = mem.d2;
+            cu.d1 = mem.d1;
+            cu.d0 = mem.d0;
+            cu.sa7 = mem.sa7;
+            cu.sa6 = mem.sa6;
+            cu.sa5 = mem.sa5;
+            cu.sa4 = mem.sa4;
+            cu.sa3 = mem.sa3;
+            cu.sa2 = mem.sa2;
+            cu.sa1 = mem.sa1;
+            cu.sa0 = mem.sa0;
+
+            mem.x7 = cu.r7;
+            mem.x6 = cu.r6;
+            mem.x5 = cu.r5;
+            mem.x4 = cu.r4;
+            mem.x3 = cu.r3;
+            mem.x2 = cu.r2;
+            mem.x1 = cu.r1;
+            mem.x0 = cu.r0;
+            mem.a = cu.a;
+            mem.d = cu.d;
+            mem.sa = cu.sa;
+            mem.cl = cl;
+        } state S;
+
+        S -> S / {
+            cu.i15 = i15;
+            cu.i14 = i14;
+            cu.i13 = i13;
+            cu.i12 = i12;
+            cu.i11 = i11;
+            cu.i10 = i10;
+            cu.i9 = i9;
+            cu.i8 = i8;
+            cu.i7 = i7;
+            cu.i6 = i6;
+            cu.i5 = i5;
+            cu.i4 = i4;
+            cu.i3 = i3;
+            cu.i2 = i2;
+            cu.i1 = i1;
+            cu.i0 = i0;
+            cu.a7 = false;
+            cu.a6 = false;
+            cu.a5 = false;
+            cu.a4 = false;
+            cu.a3 = false;
+            cu.a2 = false;
+            cu.a1 = false;
+            cu.a0 = false;
+            cu.d7 = false;
+            cu.d6 = false;
+            cu.d5 = false;
+            cu.d4 = false;
+            cu.d3 = false;
+            cu.d2 = false;
+            cu.d1 = false;
+            cu.d0 = false;
+            cu.sa7 = false;
+            cu.sa6 = false;
+            cu.sa5 = false;
+            cu.sa4 = false;
+            cu.sa3 = false;
+            cu.sa2 = false;
+            cu.sa1 = false;
+            cu.sa0 = false;
+
+            mem.x7 = cu.r7;
+            mem.x6 = cu.r6;
+            mem.x5 = cu.r5;
+            mem.x4 = cu.r4;
+            mem.x3 = cu.r3;
+            mem.x2 = cu.r2;
+            mem.x1 = cu.r1;
+            mem.x0 = cu.r0;
+            mem.a = cu.a;
+            mem.d = cu.d;
+            mem.sa = cu.sa;
+            mem.cl = cl;
+        };
+        
+    }
+
+}

@@ -53,20 +53,6 @@ component CombinedMemory {
     x1 -> ram.d1;
     x0 -> ram.d0;
 
-    /*
-    compute {
-        int v7 = register_a.a7 ? 1 : 0;
-        int v6 = register_a.a6 ? 1 : 0;
-        int v5 = register_a.a5 ? 1 : 0;
-        int v4 = register_a.a4 ? 1 : 0;
-        int v3 = register_a.a3 ? 1 : 0;
-        int v2 = register_a.a2 ? 1 : 0;
-        int v1 = register_a.a1 ? 1 : 0;
-        int v0 = register_a.a0 ? 1 : 0;
-        int full_addr = (v7 * 128 + v6 * 64 + v5 * 32 + v4 * 16 + v3 * 8 + v2 * 4 + v1 * 2 + v0);
-        ram.ad = (full_addr % 2) == 1 ? true : false;
-    }
-    */
     register_a.a0 -> ram.ad0;
     register_a.a1 -> ram.ad1;
     register_a.a2 -> ram.ad2;

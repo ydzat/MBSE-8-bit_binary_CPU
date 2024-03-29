@@ -11,11 +11,24 @@ component ControlUnit {
     port in boolean a7,a6,a5,a4,a3,a2,a1,a0;
     port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
     port in boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
-
     port out boolean r7,r6,r5,r4,r3,r2,r1,r0;
     port out boolean a, d, sa;
     port out boolean j;
-
+    /*
+    init {
+        a = false;
+        d = false;
+        sa = false;
+        r7 = false;
+        r6 = false;
+        r5 = false;
+        r4 = false;
+        r3 = false;
+        r2 = false;
+        r1 = false;
+        r0 = false;
+    }
+    */
     AlwaysTrue t;
     Selector8 sel8;
     Selector sel;

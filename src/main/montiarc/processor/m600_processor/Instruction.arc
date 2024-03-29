@@ -4,7 +4,7 @@ package processor.m600_processor;
 import processor.m300_switching.Selector8;
 import processor.m200_arithmetics.Condition;
 import processor.m400_arithmetic_logic_unit.ALU;
-
+import processor.m600_processor.TMP;
 component Instruction {
 
     port in boolean i15, i14, i13, i12, i11, i10, i9, i8;
@@ -18,6 +18,7 @@ component Instruction {
     Selector8 sel;
     ALU alu;
     Condition cond;
+    TMP tmp5, tmp4, tmp3;
 
     i12 -> sel.s;
     a7 -> sel.d70;
@@ -58,7 +59,18 @@ component Instruction {
     i8 -> alu.op0;
     i7 -> alu.zx;
     i6 -> alu.sw;
-
+    
+    i5 -> tmp5.in;
+    i4 -> tmp4.in;
+    i3 -> tmp3.in;
+    
+    /*
+    compute {
+        a = i5;
+        d = i4;
+        sa = i3;
+    }
+    */
     i2 -> cond.lt;
     i1 -> cond.eq;
     i0 -> cond.gt;
@@ -79,11 +91,10 @@ component Instruction {
     alu.out2 -> r2;
     alu.out1 -> r1;
     alu.out0 -> r0;
-
-    i5 -> a;
-    i4 -> d;
-    i3 -> sa;
-
     cond.out -> j;
 
+    tmp5.out -> a;
+    tmp4.out -> d;
+    tmp3.out -> sa;
+    
 }

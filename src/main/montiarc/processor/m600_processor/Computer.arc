@@ -1,13 +1,16 @@
 package processor.m600_processor;
 import processor.m000_circuits.AlwaysTrue;
+import processor.m000_circuits.AlwaysFalse;
 import processor.m600_processor.CombinedMemory;
 import processor.m600_processor.ControlUnit;
 import processor.m600_processor.DelayOut;
+import processor.m600_processor.ControlUnitDelay;
 component Computer {
     port in boolean i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0;
     port in boolean cl;
     
     CombinedMemory mem;
+    ControlUnitDelay cud;
     ControlUnit cu;
     DelayOut deo;
 
@@ -94,5 +97,29 @@ component Computer {
     mem.sa2 -> deo.sain2;
     mem.sa1 -> deo.sain1;
     mem.sa0 -> deo.sain0;
+
+    cu.r7 -> cud.in_r7;
+    cu.r6 -> cud.in_r6;
+    cu.r5 -> cud.in_r5;
+    cu.r4 -> cud.in_r4;
+    cu.r3 -> cud.in_r3;
+    cu.r2 -> cud.in_r2;
+    cu.r1 -> cud.in_r1;
+    cu.r0 -> cud.in_r0;
+    cu.a -> cud.in_a;
+    cu.d -> cud.in_d;
+    cu.sa -> cud.in_sa;
+
+    cu.r7 -> cud.in_r7;
+    cu.r6 -> cud.in_r6;
+    cu.r5 -> cud.in_r5;
+    cu.r4 -> cud.in_r4;
+    cu.r3 -> cud.in_r3;
+    cu.r2 -> cud.in_r2;
+    cu.r1 -> cud.in_r1;
+    cu.r0 -> cud.in_r0;
+    cu.a -> cud.in_a;
+    cu.d -> cud.in_d;
+    cu.sa -> cud.in_sa;
 
 }

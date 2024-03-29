@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-29 00:56:46
+ * @LastEditTime: 2024-03-29 01:28:09
  * @Description: 
  */
 package processor.m500_memory;
@@ -14,6 +14,7 @@ import processor.m500_memory.Register;
 import processor.m500_memory.Register8;
 import processor.m500_memory.RAM;
 
+import processor.m600_processor.CombinedMemory;
 
 // Test JUNIT 5
 import org.junit.jupiter.api.Assertions;

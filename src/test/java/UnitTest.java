@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-30 00:03:13
+ * @LastEditTime: 2024-03-30 01:00:59
  * @Description: 
  */
 package processor.m500_memory;
@@ -363,11 +363,18 @@ public class UnitTest {
             {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
             {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,true},
 
+
             {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
             {false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false},
             {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
             {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,true},
+            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,true}
+
+            // {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
+            // {false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false},
+            // {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
+            // {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
+            // {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,true},
         };
 
         for(int i = 0 ; i < input.length; i++){
@@ -391,7 +398,7 @@ public class UnitTest {
 
 
             computer.compute();
-            System.out.println("========================MEM=========================");
+            System.out.println("========================"+i+"=========================");
             System.out.println("A7 = " + computer.getComponentMem().getComponentRegister_a().getA7().getValue());
             System.out.println("A6 = " + computer.getComponentMem().getComponentRegister_a().getA6().getValue());
             System.out.println("A5 = " + computer.getComponentMem().getComponentRegister_a().getA5().getValue());

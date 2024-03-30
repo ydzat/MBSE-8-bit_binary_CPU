@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-03-28 13:57:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-30 01:00:59
+ * @LastEditTime: 2024-03-30 16:26:01
  * @Description: 
  */
 package processor.m500_memory;
@@ -28,6 +28,7 @@ import montiarc.rte.log.Log;
 import de.se_rwth.commons.logging.LogStub;
 // Java 
 import java.util.stream.Stream;
+import java.util.ArrayList;
 
 public class UnitTest {
     // declaration
@@ -354,212 +355,437 @@ public class UnitTest {
         // computer.getComponentMem().init();
 
         boolean[][] input = {
+            // cl  i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0
+            // cl  ci   -    -    *    -    u    op1 op0 zx  sw  a   d   sa  lt  eq  gt   
+            // A = 1, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
+            // A = 2, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false},
+            // A = 3, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true},
+            // A = 4, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false},
+            // A = 5, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true},
+            // A = 6, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false},
+            // A = 7, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true},
+            // A = 8, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false},
+
+            // A = 5, D = 0
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true},
+            // D = 0
+            {false,true,false,false,false,false,false,false,false,true,false,false,true,false,false,false,false},
+            {true,true,false,false,false,false,false,false,false,true,false,false,true,false,false,false,false},
+            // D = D + A
+            {false,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false},
+            {true,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false},
+            // A = 2
+            {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false},
+            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false},
+            // D = D + A
+            {false,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false},
+            {true,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false},
+            // A = 0
             {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
             {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
-            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
-            {true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
+            // SA = D + A
+            {false,true,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false},
+            {true,true,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false},
+        };
 
-            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,true},
+        boolean [][] outputA = new boolean[input.length][8];
+        boolean [][] expectedA = {
+            // A = 1, D = 0
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, true},
+            // A = 2, D = 0
+            {false, false, false, false, false, false, false, true},
+            {false, false, false, false, false, false, true, false},
+            // A = 3, D = 0
+            {false, false, false, false, false, false, true, false},
+            {false, false, false, false, false, false, true, true},
+            // A = 4, D = 0
+            {false, false, false, false, false, false, true, true},
+            {false, false, false, false, false, true, false, false},
+            // A = 5, D = 0
+            {false, false, false, false, false, true, false, false},
+            {false, false, false, false, false, true, false, true},
+            // A = 6, D = 0
+            {false, false, false, false, false, true, false, true},
+            {false, false, false, false, false, true, true, false},
+            // A = 7, D = 0
+            {false, false, false, false, false, true, true, false},
+            {false, false, false, false, false, true, true, true},
+            // A = 8, D = 0
+            {false, false, false, false, false, true, true, true},
+            {false, false, false, false, true, false, false, false},
 
+            // A = 5, D = 0
+            {false, false, false, false, true, false, false, false},
+            {false, false, false, false, false, true, false, true},
+            // D = 0
+            {false, false, false, false, false, true, false, true},
+            {false, false, false, false, false, true, false, true},
+            // D = D + A
+            {false, false, false, false, false, true, false, true},
+            {false, false, false, false, false, true, false, true},
+            // A = 2
+            {false, false, false, false, false, true, false, true},
+            {false, false, false, false, false, false, true, false},
+            // D = D + A
+            {false, false, false, false, false, false, true, false},
+            {false, false, false, false, false, false, true, false},
+            // A = 0
+            {false, false, false, false, false, false, true, false},
+            {false, false, false, false, false, false, false, false},
+            // SA = D + A
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+        };
 
-            {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
-            {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,true}
+        boolean [][] outputD = new boolean[input.length][8];
+        boolean [][] expectedD = {
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
 
-            // {false,false,false,false,true,false,false,true,false,false,false,false,false,false,false,true,false},
-            // {false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false},
-            // {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
-            // {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,false},
-            // {false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true,true},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // D = 0
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // D = D + A
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, true, false, true},
+            // A = 2
+            {false, false, false, false, false, true, false, true},
+            {false, false, false, false, false, true, false, true},
+            // D = D + A
+            {false, false, false, false, false, true, false, true},
+            {false, false, false, false, false, true, true, true},
+            // A = 0
+            {false, false, false, false, false, true, true, true},
+            {false, false, false, false, false, true, true, true},
+            // SA = D + A
+            {false, false, false, false, false, true, true, true},
+            {false, false, false, false, false, true, true, true},
+
+        };
+
+        // sa, The current value in RAM at the address given by A the register
+        boolean [][] outputSA = new boolean[input.length][8];
+        boolean [][] expectedSA = {
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // D = 0
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // D = D + A
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // A = 2
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // D = D + A
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // A = 0
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            // SA = D + A
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, true, true, true},
         };
 
         for(int i = 0 ; i < input.length; i++){
-            computer.getI0().update(input[i][0]);
-            computer.getI1().update(input[i][1]);
-            computer.getI2().update(input[i][2]);
-            computer.getI3().update(input[i][3]);
-            computer.getI4().update(input[i][4]);
-            computer.getI5().update(input[i][5]);
-            computer.getI6().update(input[i][6]);
-            computer.getI7().update(input[i][7]);
+            computer.getCl().update(input[i][0]);
+            computer.getI15().update(input[i][1]);
+            computer.getI14().update(input[i][2]);
+            computer.getI13().update(input[i][3]);
+            computer.getI12().update(input[i][4]);
+            computer.getI11().update(input[i][5]);
+            computer.getI10().update(input[i][6]);
+            computer.getI9().update(input[i][7]);
             computer.getI8().update(input[i][8]);
-            computer.getI9().update(input[i][9]);
-            computer.getI10().update(input[i][10]);
-            computer.getI11().update(input[i][11]);
-            computer.getI12().update(input[i][12]);
-            computer.getI13().update(input[i][13]);
-            computer.getI14().update(input[i][14]);
-            computer.getI15().update(input[i][15]);
-            computer.getCl().update(input[i][16]);
+            computer.getI7().update(input[i][9]);
+            computer.getI6().update(input[i][10]);
+            computer.getI5().update(input[i][11]);
+            computer.getI4().update(input[i][12]);
+            computer.getI3().update(input[i][13]);
+            computer.getI2().update(input[i][14]);
+            computer.getI1().update(input[i][15]);
+            computer.getI0().update(input[i][16]);
 
 
             computer.compute();
             System.out.println("========================"+i+"=========================");
-            System.out.println("A7 = " + computer.getComponentMem().getComponentRegister_a().getA7().getValue());
-            System.out.println("A6 = " + computer.getComponentMem().getComponentRegister_a().getA6().getValue());
-            System.out.println("A5 = " + computer.getComponentMem().getComponentRegister_a().getA5().getValue());
-            System.out.println("A4 = " + computer.getComponentMem().getComponentRegister_a().getA4().getValue());
-            System.out.println("A3 = " + computer.getComponentMem().getComponentRegister_a().getA3().getValue());
-            System.out.println("A2 = " + computer.getComponentMem().getComponentRegister_a().getA2().getValue());
-            System.out.println("A1 = " + computer.getComponentMem().getComponentRegister_a().getA1().getValue());
-            System.out.println("A0 = " + computer.getComponentMem().getComponentRegister_a().getA0().getValue());
-            System.out.println(" ");
-            System.out.println("D7 = " + computer.getComponentMem().getComponentRegister_d().getA7().getValue());
-            System.out.println("D6 = " + computer.getComponentMem().getComponentRegister_d().getA6().getValue());
-            System.out.println("D5 = " + computer.getComponentMem().getComponentRegister_d().getA5().getValue());
-            System.out.println("D4 = " + computer.getComponentMem().getComponentRegister_d().getA4().getValue());
-            System.out.println("D3 = " + computer.getComponentMem().getComponentRegister_d().getA3().getValue());
-            System.out.println("D2 = " + computer.getComponentMem().getComponentRegister_d().getA2().getValue());
-            System.out.println("D1 = " + computer.getComponentMem().getComponentRegister_d().getA1().getValue());
-            System.out.println("D0 = " + computer.getComponentMem().getComponentRegister_d().getA0().getValue());
-            System.out.println(" ");
-            System.out.println("X7 = " + computer.getComponentMem().getX7().getValue());
-            System.out.println("X6 = " + computer.getComponentMem().getX6().getValue());
-            System.out.println("X5 = " + computer.getComponentMem().getX5().getValue());
-            System.out.println("X4 = " + computer.getComponentMem().getX4().getValue());
-            System.out.println("X3 = " + computer.getComponentMem().getX3().getValue());
-            System.out.println("X2 = " + computer.getComponentMem().getX2().getValue());
-            System.out.println("X1 = " + computer.getComponentMem().getX1().getValue());
-            System.out.println("X0 = " + computer.getComponentMem().getX0().getValue());
-            System.out.println("A = " + computer.getComponentMem().getA().getValue());
-            System.out.println("D = " + computer.getComponentMem().getD().getValue());
-            System.out.println("SA = " + computer.getComponentMem().getSa().getValue());
-            System.out.println("CL = " + computer.getComponentMem().getCl().getValue());
 
-            System.out.println("========================Cu=========================");
-            System.out.println("A7 = " + computer.getComponentCu().getA7().getValue());
-            System.out.println("A6 = " + computer.getComponentCu().getA6().getValue());
-            System.out.println("A5 = " + computer.getComponentCu().getA5().getValue());
-            System.out.println("A4 = " + computer.getComponentCu().getA4().getValue());
-            System.out.println("A3 = " + computer.getComponentCu().getA3().getValue());
-            System.out.println("A2 = " + computer.getComponentCu().getA2().getValue());
-            System.out.println("A1 = " + computer.getComponentCu().getA1().getValue());
-            System.out.println("A0 = " + computer.getComponentCu().getA0().getValue());
-            System.out.println(" ");
-            System.out.println("D7 = " + computer.getComponentCu().getD7().getValue());
-            System.out.println("D6 = " + computer.getComponentCu().getD6().getValue());
-            System.out.println("D5 = " + computer.getComponentCu().getD5().getValue());
-            System.out.println("D4 = " + computer.getComponentCu().getD4().getValue());
-            System.out.println("D3 = " + computer.getComponentCu().getD3().getValue());
-            System.out.println("D2 = " + computer.getComponentCu().getD2().getValue());
-            System.out.println("D1 = " + computer.getComponentCu().getD1().getValue());
-            System.out.println("D0 = " + computer.getComponentCu().getD0().getValue());
-            System.out.println("===============AU R================");
-            System.out.println("R7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut7().getValue());
-            System.out.println("R6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut6().getValue());
-            System.out.println("R5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut5().getValue());
-            System.out.println("R4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut4().getValue());
-            System.out.println("R3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut3().getValue());
-            System.out.println("R2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut2().getValue());
-            System.out.println("R1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut1().getValue());
-            System.out.println("R0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut0().getValue());
-            System.out.println(" ");
-            System.out.println("X7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX7().getValue());
-            System.out.println("X6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX6().getValue());
-            System.out.println("X5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX5().getValue());
-            System.out.println("X4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX4().getValue());
-            System.out.println("X3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX3().getValue());
-            System.out.println("X2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX2().getValue());
-            System.out.println("X1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX1().getValue());
-            System.out.println("X0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX0().getValue());
-            System.out.println(" ");
-            System.out.println("Y7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY7().getValue());
-            System.out.println("Y6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY6().getValue());
-            System.out.println("Y5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY5().getValue());
-            System.out.println("Y4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY4().getValue());
-            System.out.println("Y3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY3().getValue());
-            System.out.println("Y2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY2().getValue());
-            System.out.println("Y1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY1().getValue());
-            System.out.println("Y0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY0().getValue());
-            System.out.println(" ");
-            System.out.println("OP0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOp0().getValue());
-            System.out.println("OP1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOp1().getValue());
-            System.out.println(" ");
-            System.out.println("ADD7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS7().getValue());
-            System.out.println("ADD6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS6().getValue());
-            System.out.println("ADD5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS5().getValue());
-            System.out.println("ADD4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS4().getValue());
-            System.out.println("ADD3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS3().getValue());
-            System.out.println("ADD2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS2().getValue());
-            System.out.println("ADD1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS1().getValue());
-            System.out.println("ADD0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS0().getValue());
-            System.out.println(" ");
-            System.out.println("ADD B7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB7().getValue());
-            System.out.println("ADD B6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB6().getValue());
-            System.out.println("ADD B5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB5().getValue());
-            System.out.println("ADD B4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB4().getValue());
-            System.out.println("ADD B3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB3().getValue());
-            System.out.println("ADD B2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB2().getValue());
-            System.out.println("ADD B1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB1().getValue());
-            System.out.println("ADD B0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB0().getValue());
-            System.out.println(" ");
-            System.out.println("ADD A7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA7().getValue());
-            System.out.println("ADD A6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA6().getValue());
-            System.out.println("ADD A5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA5().getValue());
-            System.out.println("ADD A4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA4().getValue());
-            System.out.println("ADD A3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA3().getValue());
-            System.out.println("ADD A2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA2().getValue());
-            System.out.println("ADD A1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA1().getValue());
-            System.out.println("ADD A0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA0().getValue());
+            outputA[i][0] = computer.getComponentMem().getComponentRegister_a().getA7().getValue();
+            outputA[i][1] = computer.getComponentMem().getComponentRegister_a().getA6().getValue();
+            outputA[i][2] = computer.getComponentMem().getComponentRegister_a().getA5().getValue();
+            outputA[i][3] = computer.getComponentMem().getComponentRegister_a().getA4().getValue();
+            outputA[i][4] = computer.getComponentMem().getComponentRegister_a().getA3().getValue();
+            outputA[i][5] = computer.getComponentMem().getComponentRegister_a().getA2().getValue();
+            outputA[i][6] = computer.getComponentMem().getComponentRegister_a().getA1().getValue();
+            outputA[i][7] = computer.getComponentMem().getComponentRegister_a().getA0().getValue();
 
-            System.out.println("===============ALU R================");
-            System.out.println("R7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut7().getValue());
-            System.out.println("R6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut6().getValue());
-            System.out.println("R5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut5().getValue());
-            System.out.println("R4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut4().getValue());
-            System.out.println("R3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut3().getValue());
-            System.out.println("R2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut2().getValue());
-            System.out.println("R1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut1().getValue());
-            System.out.println("R0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut0().getValue());
-            System.out.println(" ");
-            System.out.println("U = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getU().getValue());
-            System.out.println("OP1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOp1().getValue());
-            System.out.println("OP0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOp0().getValue());
-            System.out.println("ZX = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getZx().getValue());
-            System.out.println("SW = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getSw().getValue());
-            System.out.println(" ");
-            System.out.println("X7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX7().getValue());
-            System.out.println("X6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX6().getValue());
-            System.out.println("X5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX5().getValue());
-            System.out.println("X4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX4().getValue());
-            System.out.println("X3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX3().getValue());
-            System.out.println("X2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX2().getValue());
-            System.out.println("X1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX1().getValue());
-            System.out.println("X0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX0().getValue());
-            System.out.println(" ");
-            System.out.println("Y7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY7().getValue());
-            System.out.println("Y6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY6().getValue());
-            System.out.println("Y5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY5().getValue());
-            System.out.println("Y4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY4().getValue());
-            System.out.println("Y3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY3().getValue());
-            System.out.println("Y2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY2().getValue());
-            System.out.println("Y1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY1().getValue());
-            System.out.println("Y0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY0().getValue());
-            System.out.println("===============INSTRUCTION R================");
-            System.out.println("R7 = " + computer.getComponentCu().getComponentInstruction().getR7().getValue());
-            System.out.println("R6 = " + computer.getComponentCu().getComponentInstruction().getR6().getValue());
-            System.out.println("R5 = " + computer.getComponentCu().getComponentInstruction().getR5().getValue());
-            System.out.println("R4 = " + computer.getComponentCu().getComponentInstruction().getR4().getValue());
-            System.out.println("R3 = " + computer.getComponentCu().getComponentInstruction().getR3().getValue());
-            System.out.println("R2 = " + computer.getComponentCu().getComponentInstruction().getR2().getValue());
-            System.out.println("R1 = " + computer.getComponentCu().getComponentInstruction().getR1().getValue());
-            System.out.println("R0 = " + computer.getComponentCu().getComponentInstruction().getR0().getValue());
-            System.out.println("===============CU R================");
-            System.out.println("R7 = " + computer.getComponentCu().getR7().getValue());
-            System.out.println("R6 = " + computer.getComponentCu().getR6().getValue());
-            System.out.println("R5 = " + computer.getComponentCu().getR5().getValue());
-            System.out.println("R4 = " + computer.getComponentCu().getR4().getValue());
-            System.out.println("R3 = " + computer.getComponentCu().getR3().getValue());
-            System.out.println("R2 = " + computer.getComponentCu().getR2().getValue());
-            System.out.println("R1 = " + computer.getComponentCu().getR1().getValue());
-            System.out.println("R0 = " + computer.getComponentCu().getR0().getValue());
-            computer.tick();
+            outputD[i][0] = computer.getComponentMem().getComponentRegister_d().getA7().getValue();
+            outputD[i][1] = computer.getComponentMem().getComponentRegister_d().getA6().getValue();
+            outputD[i][2] = computer.getComponentMem().getComponentRegister_d().getA5().getValue();
+            outputD[i][3] = computer.getComponentMem().getComponentRegister_d().getA4().getValue();
+            outputD[i][4] = computer.getComponentMem().getComponentRegister_d().getA3().getValue();
+            outputD[i][5] = computer.getComponentMem().getComponentRegister_d().getA2().getValue();
+            outputD[i][6] = computer.getComponentMem().getComponentRegister_d().getA1().getValue();
+            outputD[i][7] = computer.getComponentMem().getComponentRegister_d().getA0().getValue();
+
+            outputSA[i][0] = computer.getComponentMem().getSa7().getValue();
+            outputSA[i][1] = computer.getComponentMem().getSa6().getValue();
+            outputSA[i][2] = computer.getComponentMem().getSa5().getValue();
+            outputSA[i][3] = computer.getComponentMem().getSa4().getValue();
+            outputSA[i][4] = computer.getComponentMem().getSa3().getValue();
+            outputSA[i][5] = computer.getComponentMem().getSa2().getValue();
+            outputSA[i][6] = computer.getComponentMem().getSa1().getValue();
+            outputSA[i][7] = computer.getComponentMem().getSa0().getValue();
             
+
+
+            // System.out.print("Output A"+ i +" =   ");
+            // for(int j = 0; j < 8; j++){
+            //     System.out.print(outputA[i][j] + " ");
+            // }
+            // System.out.println("");
+            // System.out.print("Expected A"+ i +" = ");
+            // for(int j = 0; j < 8; j++){
+            //     System.out.print(expectedA[i][j] + " ");
+            // }
+            // System.out.println("");
+
+            
+
+            Assertions.assertArrayEquals(expectedA[i], outputA[i], "Expected A "+i);
+            Assertions.assertArrayEquals(expectedD[i], outputD[i], "Expected D "+i);
+            Assertions.assertArrayEquals(expectedSA[i], outputSA[i], "Expected ADSA "+i);
+
+
+
+
+            // System.out.println("A7 = " + computer.getComponentMem().getComponentRegister_a().getA7().getValue());
+            // System.out.println("A6 = " + computer.getComponentMem().getComponentRegister_a().getA6().getValue());
+            // System.out.println("A5 = " + computer.getComponentMem().getComponentRegister_a().getA5().getValue());
+            // System.out.println("A4 = " + computer.getComponentMem().getComponentRegister_a().getA4().getValue());
+            // System.out.println("A3 = " + computer.getComponentMem().getComponentRegister_a().getA3().getValue());
+            // System.out.println("A2 = " + computer.getComponentMem().getComponentRegister_a().getA2().getValue());
+            // System.out.println("A1 = " + computer.getComponentMem().getComponentRegister_a().getA1().getValue());
+            // System.out.println("A0 = " + computer.getComponentMem().getComponentRegister_a().getA0().getValue());
+            // System.out.println(" ");
+            // System.out.println("D7 = " + computer.getComponentMem().getComponentRegister_d().getA7().getValue());
+            // System.out.println("D6 = " + computer.getComponentMem().getComponentRegister_d().getA6().getValue());
+            // System.out.println("D5 = " + computer.getComponentMem().getComponentRegister_d().getA5().getValue());
+            // System.out.println("D4 = " + computer.getComponentMem().getComponentRegister_d().getA4().getValue());
+            // System.out.println("D3 = " + computer.getComponentMem().getComponentRegister_d().getA3().getValue());
+            // System.out.println("D2 = " + computer.getComponentMem().getComponentRegister_d().getA2().getValue());
+            // System.out.println("D1 = " + computer.getComponentMem().getComponentRegister_d().getA1().getValue());
+            // System.out.println("D0 = " + computer.getComponentMem().getComponentRegister_d().getA0().getValue());
+
+
+
+
+
+            // System.out.println(" ");
+            // System.out.println("X7 = " + computer.getComponentMem().getX7().getValue());
+            // System.out.println("X6 = " + computer.getComponentMem().getX6().getValue());
+            // System.out.println("X5 = " + computer.getComponentMem().getX5().getValue());
+            // System.out.println("X4 = " + computer.getComponentMem().getX4().getValue());
+            // System.out.println("X3 = " + computer.getComponentMem().getX3().getValue());
+            // System.out.println("X2 = " + computer.getComponentMem().getX2().getValue());
+            // System.out.println("X1 = " + computer.getComponentMem().getX1().getValue());
+            // System.out.println("X0 = " + computer.getComponentMem().getX0().getValue());
+            // System.out.println("A = " + computer.getComponentMem().getA().getValue());
+            // System.out.println("D = " + computer.getComponentMem().getD().getValue());
+            // System.out.println("SA = " + computer.getComponentMem().getSa().getValue());
+            // System.out.println("CL = " + computer.getComponentMem().getCl().getValue());
+
+            // System.out.println("========================Cu=========================");
+            // System.out.println("A7 = " + computer.getComponentCu().getA7().getValue());
+            // System.out.println("A6 = " + computer.getComponentCu().getA6().getValue());
+            // System.out.println("A5 = " + computer.getComponentCu().getA5().getValue());
+            // System.out.println("A4 = " + computer.getComponentCu().getA4().getValue());
+            // System.out.println("A3 = " + computer.getComponentCu().getA3().getValue());
+            // System.out.println("A2 = " + computer.getComponentCu().getA2().getValue());
+            // System.out.println("A1 = " + computer.getComponentCu().getA1().getValue());
+            // System.out.println("A0 = " + computer.getComponentCu().getA0().getValue());
+            // System.out.println(" ");
+            // System.out.println("D7 = " + computer.getComponentCu().getD7().getValue());
+            // System.out.println("D6 = " + computer.getComponentCu().getD6().getValue());
+            // System.out.println("D5 = " + computer.getComponentCu().getD5().getValue());
+            // System.out.println("D4 = " + computer.getComponentCu().getD4().getValue());
+            // System.out.println("D3 = " + computer.getComponentCu().getD3().getValue());
+            // System.out.println("D2 = " + computer.getComponentCu().getD2().getValue());
+            // System.out.println("D1 = " + computer.getComponentCu().getD1().getValue());
+            // System.out.println("D0 = " + computer.getComponentCu().getD0().getValue());
+            // System.out.println("===============AU R================");
+            // System.out.println("R7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut7().getValue());
+            // System.out.println("R6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut6().getValue());
+            // System.out.println("R5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut5().getValue());
+            // System.out.println("R4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut4().getValue());
+            // System.out.println("R3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut3().getValue());
+            // System.out.println("R2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut2().getValue());
+            // System.out.println("R1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut1().getValue());
+            // System.out.println("R0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOut0().getValue());
+            // System.out.println(" ");
+            // System.out.println("X7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX7().getValue());
+            // System.out.println("X6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX6().getValue());
+            // System.out.println("X5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX5().getValue());
+            // System.out.println("X4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX4().getValue());
+            // System.out.println("X3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX3().getValue());
+            // System.out.println("X2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX2().getValue());
+            // System.out.println("X1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX1().getValue());
+            // System.out.println("X0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getX0().getValue());
+            // System.out.println(" ");
+            // System.out.println("Y7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY7().getValue());
+            // System.out.println("Y6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY6().getValue());
+            // System.out.println("Y5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY5().getValue());
+            // System.out.println("Y4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY4().getValue());
+            // System.out.println("Y3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY3().getValue());
+            // System.out.println("Y2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY2().getValue());
+            // System.out.println("Y1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY1().getValue());
+            // System.out.println("Y0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getY0().getValue());
+            // System.out.println(" ");
+            // System.out.println("OP0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOp0().getValue());
+            // System.out.println("OP1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getOp1().getValue());
+            // System.out.println(" ");
+            // System.out.println("ADD7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS7().getValue());
+            // System.out.println("ADD6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS6().getValue());
+            // System.out.println("ADD5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS5().getValue());
+            // System.out.println("ADD4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS4().getValue());
+            // System.out.println("ADD3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS3().getValue());
+            // System.out.println("ADD2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS2().getValue());
+            // System.out.println("ADD1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS1().getValue());
+            // System.out.println("ADD0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getS0().getValue());
+            // System.out.println(" ");
+            // System.out.println("ADD B7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB7().getValue());
+            // System.out.println("ADD B6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB6().getValue());
+            // System.out.println("ADD B5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB5().getValue());
+            // System.out.println("ADD B4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB4().getValue());
+            // System.out.println("ADD B3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB3().getValue());
+            // System.out.println("ADD B2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB2().getValue());
+            // System.out.println("ADD B1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB1().getValue());
+            // System.out.println("ADD B0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getB0().getValue());
+            // System.out.println(" ");
+            // System.out.println("ADD A7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA7().getValue());
+            // System.out.println("ADD A6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA6().getValue());
+            // System.out.println("ADD A5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA5().getValue());
+            // System.out.println("ADD A4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA4().getValue());
+            // System.out.println("ADD A3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA3().getValue());
+            // System.out.println("ADD A2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA2().getValue());
+            // System.out.println("ADD A1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA1().getValue());
+            // System.out.println("ADD A0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getComponentAu().getComponentAdd8().getA0().getValue());
+
+            // System.out.println("===============ALU R================");
+            // System.out.println("R7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut7().getValue());
+            // System.out.println("R6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut6().getValue());
+            // System.out.println("R5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut5().getValue());
+            // System.out.println("R4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut4().getValue());
+            // System.out.println("R3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut3().getValue());
+            // System.out.println("R2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut2().getValue());
+            // System.out.println("R1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut1().getValue());
+            // System.out.println("R0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOut0().getValue());
+            // System.out.println(" ");
+            // System.out.println("U = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getU().getValue());
+            // System.out.println("OP1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOp1().getValue());
+            // System.out.println("OP0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getOp0().getValue());
+            // System.out.println("ZX = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getZx().getValue());
+            // System.out.println("SW = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getSw().getValue());
+            // System.out.println(" ");
+            // System.out.println("X7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX7().getValue());
+            // System.out.println("X6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX6().getValue());
+            // System.out.println("X5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX5().getValue());
+            // System.out.println("X4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX4().getValue());
+            // System.out.println("X3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX3().getValue());
+            // System.out.println("X2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX2().getValue());
+            // System.out.println("X1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX1().getValue());
+            // System.out.println("X0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getX0().getValue());
+            // System.out.println(" ");
+            // System.out.println("Y7 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY7().getValue());
+            // System.out.println("Y6 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY6().getValue());
+            // System.out.println("Y5 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY5().getValue());
+            // System.out.println("Y4 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY4().getValue());
+            // System.out.println("Y3 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY3().getValue());
+            // System.out.println("Y2 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY2().getValue());
+            // System.out.println("Y1 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY1().getValue());
+            // System.out.println("Y0 = " + computer.getComponentCu().getComponentInstruction().getComponentAlu().getY0().getValue());
+            // System.out.println("===============INSTRUCTION R================");
+            // System.out.println("R7 = " + computer.getComponentCu().getComponentInstruction().getR7().getValue());
+            // System.out.println("R6 = " + computer.getComponentCu().getComponentInstruction().getR6().getValue());
+            // System.out.println("R5 = " + computer.getComponentCu().getComponentInstruction().getR5().getValue());
+            // System.out.println("R4 = " + computer.getComponentCu().getComponentInstruction().getR4().getValue());
+            // System.out.println("R3 = " + computer.getComponentCu().getComponentInstruction().getR3().getValue());
+            // System.out.println("R2 = " + computer.getComponentCu().getComponentInstruction().getR2().getValue());
+            // System.out.println("R1 = " + computer.getComponentCu().getComponentInstruction().getR1().getValue());
+            // System.out.println("R0 = " + computer.getComponentCu().getComponentInstruction().getR0().getValue());
+            // System.out.println("===============CU R================");
+            // System.out.println("R7 = " + computer.getComponentCu().getR7().getValue());
+            // System.out.println("R6 = " + computer.getComponentCu().getR6().getValue());
+            // System.out.println("R5 = " + computer.getComponentCu().getR5().getValue());
+            // System.out.println("R4 = " + computer.getComponentCu().getR4().getValue());
+            // System.out.println("R3 = " + computer.getComponentCu().getR3().getValue());
+            // System.out.println("R2 = " + computer.getComponentCu().getR2().getValue());
+            // System.out.println("R1 = " + computer.getComponentCu().getR1().getValue());
+            // System.out.println("R0 = " + computer.getComponentCu().getR0().getValue());
+            computer.tick();
+            //break;
         }
+        // System.out.println("SA:");
+        // for(int i = 0 ; i < input.length; i++){
+        //     System.out.print("{");
+        //     for(int j = 0; j < 8; j++){
+        //         if (j == 7) System.out.print(outputSA[i][j]);
+        //         else System.out.print(outputSA[i][j] + ", ");
+
+        //     }
+        //     System.out.println("},");
+        // }
     }
 
 }

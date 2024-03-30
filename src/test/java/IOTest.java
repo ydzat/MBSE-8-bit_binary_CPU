@@ -46,63 +46,63 @@ public class IOTest {
             false, false, false, false, true, 
             false, false, false, false, false, false},
         // D | A
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             false, false, true, false, false, 
             false, false, false, false, false, false},
         // D ^ A
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             false, true, false, false, false, 
             false, false, false, false, false, false},
         // ~D
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             false, true, true, false, false, 
             false, false, false, false, false, false},
         // ~A
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             false, true, true, false, true, 
             false, false, false, false, false, false},
         // -1
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             false, true, true, true, false, 
             false, false, false, false, false, false},
         // D + A
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, false, false, false, false, 
             false, false, false, false, false, false},
         // D + 1
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, false, true, false, false, 
             false, false, false, false, false, false},
         // A + 1
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, false, true, false, true, 
             false, false, false, false, false, false},
         // 1
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, false, true, true, false, 
             false, false, false, false, false, false},
         // D - A
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, true, false, false, false, 
             false, false, false, false, false, false},
         // A - D
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, true, false, false, true, 
             false, false, false, false, false, false},
         // - A
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, true, false, true, false, 
             false, false, false, false, false, false},
         // - D
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, true, false, true, true, 
             false, false, false, false, false, false},
         // D - 1
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, true, true, false, false, 
             false, false, false, false, false, false},
         // A - 1
-        {false, false, false, false, false, false, 
+        {false, true, false, false, false, false, 
             true, true, true, false, true, 
             false, false, false, false, false, false},
         // --------------------------------------------
@@ -116,40 +116,40 @@ public class IOTest {
             false, false, false, false, true, 
             false, false, false, false, false, false},
         // D | *A
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             false, false, true, false, false, 
             false, false, false, false, false, false},
         // D ^ *A
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             false, true, false, false, false, 
             false, false, false, false, false, false},
 
         // ~*A
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             false, true, true, false, true, 
             false, false, false, false, false, false},
         // D + *A
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             true, false, false, false, false, 
             false, false, false, false, false, false},
         // *A + 1
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             true, false, true, false, true, 
             false, false, false, false, false, false},
         // D - *A
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             true, true, false, false, false, 
             false, false, false, false, false, false},
         // *A - D
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             true, true, false, false, true, 
             false, false, false, false, false, false},
         // - *A
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             true, true, false, true, false, 
             false, false, false, false, false, false},
         // *A - 1
-        {false, false, false, false, true, false, 
+        {false, true, false, false, true, false, 
             true, true, true, false, true, 
             false, false, false, false, false, false},
         // 0
@@ -216,6 +216,10 @@ public class IOTest {
             if (this.result[i]) {
                 this.resultInt += Math.pow(2, result.length - 1 - i);
             }
+        }
+
+        if (this.result[0] == true) {
+            this.resultInt = -1 * (256 - this.resultInt);
         }
 
         System.out.println("ResultInt = " + this.resultInt);
@@ -352,7 +356,7 @@ public class IOTest {
 
         computer.compute();
 
-        readRAM(computer, location);
+        //readRAM(computer, location);
         readLastRAM(computer, location);
 
         computer.tick();
@@ -412,39 +416,55 @@ public class IOTest {
         computer.setUp();
         computer.init();
 
+        /*
+         * +: Addition
+         * -: Subtraction or Negation
+         * &: Per Bitwise AND
+         * |: Per Bitwise OR
+         * ^: Per Bitwise XOR
+         * ~: Per Bitwise NOT
+         */
         String[] input = {
-            //"15+3"
-            // "5+1",
+            "15+3",
+            "5+1",
 
-            // "15-3",
-            // "3-15",
-            // "5-1",
+            "15-3",
+            "3-15",
+            "5-1",
 
-            // "1&1",
-            // "1&0",
-            // "0&0",
+            "1&1",
+            "1&0",
+            "0&0",
             
-            // "1|1",
-            // "1|0",
-            // "0|0",
-            
-            // "1x1",
-            // "1x0",
-            // "0x0",
-            
-            // "2^3",
-            // "3^2",
-            // "2^0",
+            "5&4",
+            "5&0",
+            "3&1",
 
-            // "~1",
-            // "~2",
-            // "~3",
-            // "~4",
-            // "~5",
-            // "~6",
-            // "~7",
-            // "~8",
+            "4&1",
+
+            "1|1",
+            "1|0",
+            "0|0",
+            
+            "4|3",
+            
+            "2^3",
+            "2^0",
+            "7^5",
+            "~1",
+            "~2",
+            "~3",
+            "~4",
+            "~5",
+            "~6",
+            "~7",
+            "~8",
             "~9",
+
+            "-2",
+            "-3",
+            "-1",
+            "-50",
         };
         int location = 0;
 
@@ -452,35 +472,49 @@ public class IOTest {
             ArrayList<String> list = new ArrayList<String>(input2Slice(i));
 
             if (list.size() == 2){
-                boolean [] ops = op2Stream(list.get(0));
-                boolean [] nums = num2Stream(list.get(1));
+                if (list.get(0).equals("~")){
+                    boolean [] nums = num2Stream(list.get(1));
 
-                // according to the value of location to decide the value of A
-                boolean [] locationStream = setLocation(location);
+                    // according to the value of location to decide the value of A
+                    boolean [] locationStream = setLocation(location);
 
-                for(int ele = 0; ele < 17; ele++){
-                    System.out.print(String.valueOf(ops[ele]) + "  ");
+                    // A = num
+                    transfer2Computer(nums, computer, location, false, false, false);
+                    //D = ~A
+                    //transfer2Computer(ops, computer, location, false, true, false);
+                    transfer2Computer(instructionMap.get("~A"), computer, location, false, true, false);
+                    // A = location
+                    transfer2Computer(locationStream, computer, location, false, false, false);
+                    // A * = D
+                    transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
+                    //check if store is correct
+                    //readRAM(computer,location);
+                    location = (location + 1) % RAM_SIZE;
                 }
+                else if(list.get(0).equals("-")){
+                    boolean [] nums = num2Stream(list.get(1));
 
+                    // according to the value of location to decide the value of A
+                    boolean [] locationStream = setLocation(location);
 
-
-                // A = num
-                transfer2Computer(nums, computer, location, false, false, false);
-                //D = ~A
-                transfer2Computer(ops, computer, location, false, true, false);
-                //transfer2Computer(instructionMap.get("~A"), computer, location, false, true, false);
-                // A = location
-                transfer2Computer(locationStream, computer, location, false, false, false);
-                // A * = D
-                transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
-                //check if store is correct
-                //readRAM(computer,location);
-                location = (location + 1) % RAM_SIZE;
+                    // A = num
+                    transfer2Computer(nums, computer, location, false, false, false);
+                    //D = -A
+                    //transfer2Computer(ops, computer, location, false, true, false);
+                    transfer2Computer(instructionMap.get("-A"), computer, location, false, true, false);
+                    // A = location
+                    transfer2Computer(locationStream, computer, location, false, false, false);
+                    // A * = D
+                    transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
+                    //check if store is correct
+                    //readRAM(computer,location);
+                    location = (location + 1) % RAM_SIZE;
+                }
+                
             }
             else if (list.get(1).equals("+")){
 
                 boolean [] num0 = num2Stream(list.get(0));
-                //boolean [] ops = op2Stream(list.get(1));
                 boolean [] num1 = num2Stream(list.get(2));
 
                 // according to the value of location to decide the value of A
@@ -502,19 +536,92 @@ public class IOTest {
                 location = (location + 1) % RAM_SIZE;
             }
             else if (list.get(1).equals("-")){
+                boolean [] num0 = num2Stream(list.get(0));
+                boolean [] num1 = num2Stream(list.get(2));
 
+                // according to the value of location to decide the value of A
+                boolean [] locationStream = setLocation(location);
+                // A = num0
+                transfer2Computer(num0, computer, location, false, false, false);
+                // D = 0
+                transfer2Computer(instructionMap.get("0"), computer, location, false, true, false);
+                // D = D + A
+                transfer2Computer(instructionMap.get("D+A"), computer, location, false, true, false);
+                // A = num1
+                transfer2Computer(num1, computer, location, false, false, false);
+                // D = D - A
+                transfer2Computer(instructionMap.get("D-A"), computer, location, false, true, false);
+                // A = location
+                transfer2Computer(locationStream, computer, location, false, false, false);
+                // A * = D
+                transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
+                location = (location + 1) % RAM_SIZE;
             }
             else if (list.get(1).equals("&")){
-                
+                boolean [] num0 = num2Stream(list.get(0));
+                boolean [] num1 = num2Stream(list.get(2));
+
+                // according to the value of location to decide the value of A
+                boolean [] locationStream = setLocation(location);
+                // A = num0
+                transfer2Computer(num0, computer, location, false, false, false);
+                // D = 0
+                transfer2Computer(instructionMap.get("0"), computer, location, false, true, false);
+                // D = D + A
+                transfer2Computer(instructionMap.get("D+A"), computer, location, false, true, false);
+                // A = num1
+                transfer2Computer(num1, computer, location, false, false, false);
+                // D = D & A
+                transfer2Computer(instructionMap.get("D&A"), computer, location, false, true, false);
+                // A = location
+                transfer2Computer(locationStream, computer, location, false, false, false);
+                // A * = D
+                transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
+                location = (location + 1) % RAM_SIZE;
             }
             else if (list.get(1).equals("|")){
-                
-            }
-            else if (list.get(1).equals("x")){
-                
+                boolean [] num0 = num2Stream(list.get(0));
+                boolean [] num1 = num2Stream(list.get(2));
+
+                // according to the value of location to decide the value of A
+                boolean [] locationStream = setLocation(location);
+                // A = num0
+                transfer2Computer(num0, computer, location, false, false, false);
+                // D = 0
+                transfer2Computer(instructionMap.get("0"), computer, location, false, true, false);
+                // D = D + A
+                transfer2Computer(instructionMap.get("D+A"), computer, location, false, true, false);
+                // A = num1
+                transfer2Computer(num1, computer, location, false, false, false);
+                // D = D | A
+                transfer2Computer(instructionMap.get("D|A"), computer, location, false, true, false);
+                // A = location
+                transfer2Computer(locationStream, computer, location, false, false, false);
+                // A * = D
+                transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
+                location = (location + 1) % RAM_SIZE;
             }
             else if (list.get(1).equals("^")){
-                
+                boolean [] num0 = num2Stream(list.get(0));
+                boolean [] num1 = num2Stream(list.get(2));
+
+                // according to the value of location to decide the value of A
+                boolean [] locationStream = setLocation(location);
+                // A = num1
+                transfer2Computer(num1, computer, location, false, false, false);
+                // D = 0
+                transfer2Computer(instructionMap.get("0"), computer, location, false, true, false);
+                // D = D + A
+                transfer2Computer(instructionMap.get("D+A"), computer, location, false, true, false);
+                // A = num0
+                transfer2Computer(num0, computer, location, false, false, false);
+                // D = D ^ A
+                transfer2Computer(instructionMap.get("D^A"), computer, location, false, true, false);
+                // A = location
+                transfer2Computer(locationStream, computer, location, false, false, false);
+                // A * = D
+                transfer2Computer(instructionMap.get("D"), computer, location, false, false, true);
+                location = (location + 1) % RAM_SIZE;
             }
             else {
                 System.out.println("Error or not implemented yet! ");

@@ -1,8 +1,8 @@
 /*
  * @Author: Dongze Yang
- * @Date: 2024-03-28 13:57:00
+ * @Date: 2024-03-29 01:43:52
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-30 16:26:01
+ * @LastEditTime: 2024-03-30 19:33:18
  * @Description: 
  */
 package processor.m500_memory;
@@ -15,6 +15,8 @@ import processor.m500_memory.Register;
 import processor.m500_memory.RAM8;
 import processor.m600_processor.Computer;
 //import processor.m600_processor.CombinedMemory;
+//import processor.m900_applications.Calculator;
+
 
 // Test JUNIT 5
 import org.junit.jupiter.api.Assertions;
@@ -39,6 +41,8 @@ public class UnitTest {
     private RAM8 ram8;
     private Computer computer;
 
+    //private Calculator calculator;
+
     @BeforeEach
     void setUp(){
         // initialize the Log such that the MontiArc output can be seen
@@ -58,7 +62,8 @@ public class UnitTest {
         //testRAM();    // check
         // testRAM8();
         /*  Processor  */
-        testComputer();
+        //testComputer();
+        //testCalculator();
     }
 
     public void testLatch(){
@@ -605,7 +610,7 @@ public class UnitTest {
 
             Assertions.assertArrayEquals(expectedA[i], outputA[i], "Expected A "+i);
             Assertions.assertArrayEquals(expectedD[i], outputD[i], "Expected D "+i);
-            Assertions.assertArrayEquals(expectedSA[i], outputSA[i], "Expected ADSA "+i);
+            Assertions.assertArrayEquals(expectedSA[i], outputSA[i], "Expected SA "+i);
 
 
 
@@ -787,5 +792,30 @@ public class UnitTest {
         //     System.out.println("},");
         // }
     }
+
+
+
+    // public void testCalculator(){
+    //     Calculator calculator = new Calculator();
+    //     calculator.setUp();
+    //     calculator.init();
+
+    //     int input = 15;
+        
+    //     calculator.getRightOperand().update(input);
+    //     calculator.getOperator().update('+');
+
+    //     calculator.compute();
+
+    //     System.out.println("B:" + calculator.getComponentI2b().getB7().getValue() + " " + calculator.getComponentI2b().getB6().getValue() + " " + calculator.getComponentI2b().getB5().getValue() + " " + calculator.getComponentI2b().getB4().getValue() + " " + calculator.getComponentI2b().getB3().getValue() + " " + calculator.getComponentI2b().getB2().getValue() + " " + calculator.getComponentI2b().getB1().getValue() + " " + calculator.getComponentI2b().getB0().getValue());
+
+    //     System.out.println("Output:" + calculator.getResult().getValue());
+    //     System.out.println("Operator:" + calculator.getOperator().getValue());
+    // }
+
+
+
+
+
 
 }

@@ -1,0 +1,33 @@
+package processor.m900_applications;
+
+import processor.m600_processor.Computer;
+import processor.m900_applications.Calculator;
+import processor.m900_applications.Int2Boolean;
+import processor.m000_circuits.AlwaysFalse;
+import processor.m000_circuits.AlwaysTrue;
+
+component ComputerIO{
+
+    AlwaysFalse af;
+    AlwaysTrue at;
+
+    Computer com;
+
+    //Calculator cal;
+
+    Int2Boolean i2b;
+
+    af -> com.cl;
+    i2b.i15 -> com.i15;
+    i2b.i14 -> com.i14;
+    i2b.i13 -> com.i13;
+    i2b.i12 -> com.i12;
+    i2b.i11 -> com.i11;
+    i2b.i10 -> com.i10;
+    i2b.i9 -> com.i9;
+    i2b.i8 -> com.i8;
+    
+
+
+
+}

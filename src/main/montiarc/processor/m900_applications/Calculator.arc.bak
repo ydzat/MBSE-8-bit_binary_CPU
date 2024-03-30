@@ -1,0 +1,79 @@
+package processor.m900_applications;
+
+import OperatorIO.*;
+import processor.m600_processor.Computer;
+
+component Calculator{
+
+    //Computer com;
+
+    port in int rightOperand;   // maximal = 127
+    port in char operator; 
+    port out int result;
+    port out boolean b7,b6,b5,b4,b3,b2,b1,b0;
+    port out i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0;
+
+
+    int lastResult = 0;
+
+    
+
+    component Boolean2Int{
+        port in boolean b7,b6,b5,b4,b3,b2,b1,b0;
+        port out int intNum;
+
+        compute{
+            int temp = 0;
+
+            if (b0 == true){
+                temp = temp + 1;
+            }
+            if (b1 == true){
+                temp = temp + 2;
+            }
+            if (b2 == true){
+                temp = temp + 4;
+            }
+            if (b3 == true){
+                temp = temp + 8;
+            }
+            if (b4 == true){
+                temp = temp + 16;
+            }
+            if (b5 == true){
+                temp = temp + 32;
+            }
+            if (b6 == true){
+                temp = temp + 64;
+            }
+            if (b7 == true){
+                temp = temp + 128;
+            }
+            intNum = temp;
+        }
+    }
+
+
+    Int2Boolean i2b;
+    Boolean2Int b2i;
+
+    rightOperand -> i2b.intNum;
+
+    i2b.b7 -> b2i.b7;
+    i2b.b6 -> b2i.b6;
+    i2b.b5 -> b2i.b5;
+    i2b.b4 -> b2i.b4;
+    i2b.b3 -> b2i.b3;
+    i2b.b2 -> b2i.b2;
+    i2b.b1 -> b2i.b1;
+    i2b.b0 -> b2i.b0;
+
+    b2i.intNum -> result;
+  
+    component Op2Str {
+        port in char op;
+        port out 
+    }
+
+    
+}

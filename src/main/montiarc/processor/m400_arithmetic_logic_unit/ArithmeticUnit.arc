@@ -50,13 +50,13 @@ component ArithmeticUnit {
     y7  -> s0.d70;
 
     t.out  -> s0.d01;
-    f.out  -> s0.d11;
-    f.out  -> s0.d21;
-    f.out  -> s0.d31;
-    f.out  -> s0.d41;
-    f.out  -> s0.d51;
-    f.out  -> s0.d61;
-    f.out  -> s0.d71;
+    t.out  -> s0.d11;
+    t.out  -> s0.d21;
+    t.out  -> s0.d31;
+    t.out  -> s0.d41;
+    t.out  -> s0.d51;
+    t.out  -> s0.d61;
+    t.out  -> s0.d71;
 
     s0.out0 -> sub.b0;
     s0.out1 -> sub.b1;

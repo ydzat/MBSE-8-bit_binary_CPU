@@ -45,6 +45,7 @@ This project aims to simulate a mordern CPU with MVP (minimum viable product). W
 ## Layer Hierarchy
 ### File Structure
 The CPU is designed and modelled with different layers below. Each layers consists of montiarc components. A layer is the dependency of all the layers below it. `m000_circuits` is the basic layer which has only atomic montiarc components(e.g. RelayDefaultOff, RelayDefaultOn).
+
 ![image info](./doc/layer_hierarchy.png "Instruction").
 
 ### Atomic Components (Relays)

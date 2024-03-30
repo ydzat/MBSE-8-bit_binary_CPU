@@ -1,4 +1,63 @@
-## The explanation of the codes
+# CPU Simulation Using MontiArc Model
+[toc]
+## Description of this project
+
+This project aims to simulate a mordern CPU with MVP (minimum viable product). With the help of some open-source schematics 
+(like [NandGame](https://nandgame.com/)) and the powerful ADL Montiarc, we have implemented such CPU which fullfills all the requirements successfully.
+
+## Performance Params
+
+1. Simulated physical params
+
+| Architecture | Memory Size | Data Precision | Instruction Size |
+| ----- | ----- | ------ | ------ |
+| von Neumann | 10 Bytes |    int8    | 16 Bit |
+
+2. Operations
+
+| Operations |
+| ----- |
+| X and Y |
+| X or Y |
+| X xor Y |
+| invert X |
+| X + Y |
+| X - Y |
+| X + 1 |
+| X - 1 |
+| Y - X |
+| 0 - Y |
+| 0 - X |
+| Never |
+| X > 0 |
+| X = 0 |
+| X ≥ 0 |
+| X < 0 |
+| X ≠ 0 |
+| X ≤ 0 |
+| Always |
+
+3. 16-Bit Instruction
+
+![image info](./Instructions_description.png "Instruction")
+
+
+## Layer Hierarchy
+### File Structure
+The CPU is designed and modelled with different layers below. Each layers consists of montiarc components. The layer above is the dependency of all the layers below. `m000_circuits` is the basic layer which has only atomic montiarc components(e.g. RelayDefaultOff, RelayDefaultOn).
+![image info](./layer_hierarchy.png "Instruction").
+
+### Atomic Components (Relays)
+> A relay logic circuit is an electrical network consisting of lines, or rungs, in which each line or rung must have continuity to enable the output device. [WiKi](https://en.wikipedia.org/wiki/Relay_logic#:~:text=A%20relay%20logic%20circuit%20is,each%20rung%20controlling%20an%20output.)
+
+Here in our case, it is sufficient to only simulate the in-and output of relays regardless of its physical features.
+
+|Relay Off|Relay On|
+|---|---|
+|![image info](./relay_off.png "Instruction")|![image info](./relay_on.png "Instruction")|
+
+Theoretically all components can be decomposed by bunch of relays with specific combinations.
+
 ### **Logic Gate**
 #### NandGate
 Our task is to connect inputs to output through wires and relays such that when both **a** and **b** inputs are 1, the output is 0.
@@ -309,7 +368,8 @@ The flags can be combined so:
 ![微信图片_202403300153317](https://hackmd.io/_uploads/By5x95Vy0.png)
 
 ### **Memory**
-#### Latch
+#### Latch 
+<span id="jump1"> Latch </span>. 
 In this part we crearte a latch component, which stores and outputs a single bit. For example wenn **st**(store) is 1, the value on d is stored and emitted.
 Or when **st** is 0 the value of d will be ignored, and the previously stored value is still emitted.
 We have here a table to introduce the input and output.
@@ -448,7 +508,7 @@ For a data instruction, the output R should be the I input, and destination shou
 
 In this part, we have built a working programmable microprocessor.
 
-A computer is made up of:
+A <span id="jump2"> computer </span> is made up of:
 
 * A control unit
 * Storage memory (RAM and registers)
@@ -476,6 +536,44 @@ Computers must be able to communicate with the  outside world to achieve basic f
 
 ![Input and Output](https://hackmd.io/_uploads/HkHMXo4yA.png)
 
+## Implementation
+
+With the powerful architecture description language **MontiArc**, we can model the above components easily. For most of the components, we implment them by point out its dependencies, in/output and the connections of components inside. Below is an example of the implementation for HalfAdder.
+
+```java
+package processor.m200_arithmetics;
+
+import processor.m100_logicGates.XORGate;
+import processor.m100_logicGates.ANDGate;
 
 
+component HalfAdder {
+    port in boolean a;
+    port in boolean b;
+    port out boolean sum;
+    port out boolean carry;
 
+    XORGate xorGate;
+    ANDGate andGate;
+    
+    a -> xorGate.a;
+    a -> andGate.a;
+    b -> xorGate.b;
+    b -> andGate.b;
+
+    xorGate.out -> sum;
+    andGate.out -> carry;
+}
+```
+
+### Difficulties And Solutions
+
+1. [Latch](#jump1)
+
+> Latches are digital circuits that store a single bit of information and hold its value until it is updated by new input signals.
+
+To implement this special physical feature, we use the powerful tool (or term) in **MontiArc** called `automation` and `<<deleyed>>`. You can refer to the code in `m500_memory\CombineLatch.arc` and `m500_memory\LastOutOne.arc` for the details of the implementations.
+
+2. [Computer](#jump2)
+
+In the arthitecture of computer shown above, there is a in-and output chain cycle between Memory and Control Unit. Again, we use `automation` and `<<delayed>>` to implement this feature,  by simply **deley** the output from memory and init its value which used by the input of control unit.

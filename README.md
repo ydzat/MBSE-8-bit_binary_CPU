@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-01-27 13:27:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-29 06:58:42
+ * @LastEditTime: 2024-03-30 02:08:05
  * @Description: 
 -->
 
@@ -17,6 +17,17 @@
 - If you want to **push** files to this branch, please **pull** to local for synchronization first!
 
 # Update
+
+[2024-03-30 2:00]
+ + New:
+ \+ Combined Memory
+ \+ Instruction
+ \+ Control Unit
+ \+ Computer
+ + All unit tests have been passed.
+ + Some BUGs fixed
+ + Part of Documents
+
 
 [2024-03-29 6:40]
  \+ Register8.arc rewritten. Now, its function is completely equal to RAM8, that is, it can perform random access and store a total of eight 8-bit data. But it has not been unit tested, it has only passed compilation, so it is not yet known whether the actual performance is as expected.
@@ -42,7 +53,6 @@
 # TODO
 
  - If you completed a component, please check it below.
- - Formal MarkDown documentation has not yet been written.
  - Class diagram is not written.
 
 ## Components
@@ -100,8 +110,8 @@
 
 
 ### Processor
-- [ ] Combined Memory
-- [ ] Instruction
-- [ ] Control Unit
-- [ ] Computer
-- [ ] Input and Output
+- [x] Combined Memory
+- [x] Instruction
+- [x] Control Unit
+- [x] Computer
+- [x] Input and Output

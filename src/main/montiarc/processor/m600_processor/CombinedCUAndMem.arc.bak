@@ -1,0 +1,72 @@
+package processor.m600_processor;
+import processor.m000_circuits.AlwaysTrue;
+import processor.m100_logicGates.ANDGate;
+import processor.m300_switching.Selector8;
+import processor.m300_switching.Selector;
+import processor.m600_processor.Instruction;
+component CombinedCUAndMem {
+    port in boolean i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0;
+    port in boolean a7,a6,a5,a4,a3,a2,a1,a0;
+    port in boolean d7,d6,d5,d4,d3,d2,d1,d0;
+    port in boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
+    port out boolean r7,r6,r5,r4,r3,r2,r1,r0;
+    port out boolean a, sa, d, j;
+    CombinedMemory mem;
+    ControlUnit cu;
+
+
+    cu.r7 -> mem.x7;
+    cu.r6 -> mem.x6;
+    cu.r5 -> mem.x5;
+    cu.r4 -> mem.x4;
+    cu.r3 -> mem.x3;
+    cu.r2 -> mem.x2;
+    cu.r1 -> mem.x1;
+    cu.r0 -> mem.x0;
+    cu.a -> mem.a;
+    cu.d -> mem.d;
+    cu.sa -> mem.sa;
+
+    cl -> mem.cl;
+
+    i15 -> cu.i15;
+    i14 -> cu.i14;
+    i13 -> cu.i13;
+    i12 -> cu.i12;
+    i11 -> cu.i11;
+    i10 -> cu.i10;
+    i9 -> cu.i9;
+    i8 -> cu.i8;
+    i7 -> cu.i7;
+    i6 -> cu.i6;
+    i5 -> cu.i5;
+    i4 -> cu.i4;
+    i3 -> cu.i3;
+    i2 -> cu.i2;
+    i1 -> cu.i1;
+    i0 -> cu.i0;
+    mem.a7 -> cu.a7;
+    mem.a6 -> cu.a6;
+    mem.a5 -> cu.a5;
+    mem.a4 -> cu.a4;
+    mem.a3 -> cu.a3;
+    mem.a2 -> cu.a2;
+    mem.a1 -> cu.a1;
+    mem.a0 -> cu.a0;
+    mem.d7 -> cu.d7;
+    mem.d6 -> cu.d6;
+    mem.d5 -> cu.d5;
+    mem.d4 -> cu.d4;
+    mem.d3 -> cu.d3;
+    mem.d2 -> cu.d2;
+    mem.d1 -> cu.d1;
+    mem.d0 -> cu.d0;
+    mem.sa7 -> cu.sa7;
+    mem.sa6 -> cu.sa6;
+    mem.sa5 -> cu.sa5;
+    mem.sa4 -> cu.sa4;
+    mem.sa3 -> cu.sa3;
+    mem.sa2 -> cu.sa2;
+    mem.sa1 -> cu.sa1;
+    mem.sa0 -> cu.sa0;
+}

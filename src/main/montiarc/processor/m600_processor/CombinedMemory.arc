@@ -1,8 +1,8 @@
 
 package processor.m600_processor;
-
+import processor.m000_circuits.AlwaysTrue;
 import processor.m500_memory.Register;
-import processor.m500_memory.RAM;
+import processor.m500_memory.RAM8;
 
 component CombinedMemory {
 
@@ -12,9 +12,10 @@ component CombinedMemory {
     port out boolean d7,d6,d5,d4,d3,d2,d1,d0;
     port out boolean sa7,sa6,sa5,sa4,sa3,sa2,sa1,sa0;
 
-    RAM ram;
+    RAM8 ram;
     Register register_a;
     Register register_d;
+    AlwaysTrue t;
 
     a -> register_a.st;
     x7 -> register_a.d7;
@@ -26,6 +27,8 @@ component CombinedMemory {
     x1 -> register_a.d1;
     x0 -> register_a.d0;
     cl -> register_a.cl;
+    t.out -> register_a.w;
+    t.out -> register_a.r;
 
     d -> register_d.st;
     x7 -> register_d.d7;
@@ -37,32 +40,22 @@ component CombinedMemory {
     x1 -> register_d.d1;
     x0 -> register_d.d0;
     cl -> register_d.cl;
+    t.out -> register_d.w;
+    t.out -> register_d.r;
 
     sa -> ram.st;
-    x7 -> ram.x7;
-    x6 -> ram.x6;
-    x5 -> ram.x5;
-    x4 -> ram.x4;
-    x3 -> ram.x3;
-    x2 -> ram.x2;
-    x1 -> ram.x1;
-    x0 -> ram.x0;
+    x7 -> ram.d7;
+    x6 -> ram.d6;
+    x5 -> ram.d5;
+    x4 -> ram.d4;
+    x3 -> ram.d3;
+    x2 -> ram.d2;
+    x1 -> ram.d1;
+    x0 -> ram.d0;
 
-    /*
-    compute {
-        int v7 = register_a.a7 ? 1 : 0;
-        int v6 = register_a.a6 ? 1 : 0;
-        int v5 = register_a.a5 ? 1 : 0;
-        int v4 = register_a.a4 ? 1 : 0;
-        int v3 = register_a.a3 ? 1 : 0;
-        int v2 = register_a.a2 ? 1 : 0;
-        int v1 = register_a.a1 ? 1 : 0;
-        int v0 = register_a.a0 ? 1 : 0;
-        int full_addr = (v7 * 128 + v6 * 64 + v5 * 32 + v4 * 16 + v3 * 8 + v2 * 4 + v1 * 2 + v0);
-        ram.ad = (full_addr % 2) == 1 ? true : false;
-    }
-    */
-    register_a.a0 -> ram.ad;
+    register_a.a0 -> ram.ad0;
+    register_a.a1 -> ram.ad1;
+    register_a.a2 -> ram.ad2;
     cl -> ram.cl;
 
     register_a.a7 -> a7;

@@ -15,7 +15,7 @@ component MultiBitAdder {
     FullAdder fa7, fa6, fa5, fa4, fa3, fa2, fa1, fa0;
     
     cin -> fa0.cin;
-    fa7.cout -> cout;
+    
 
     fa0.cout -> fa1.cin;
     fa1.cout -> fa2.cin;
@@ -51,5 +51,6 @@ component MultiBitAdder {
     fa2.sum -> s2;
     fa1.sum -> s1;
     fa0.sum -> s0;
-
+    fa7.cout -> cout;
+    
 }

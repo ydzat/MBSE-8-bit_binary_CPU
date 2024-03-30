@@ -2,7 +2,7 @@
  * @Author: Dongze Yang
  * @Date: 2024-01-27 13:27:00
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-29 01:27:41
+ * @LastEditTime: 2024-03-29 06:58:42
  * @Description: 
 -->
 
@@ -18,6 +18,25 @@
 
 # Update
 
+[2024-03-29 6:40]
+ \+ Register8.arc rewritten. Now, its function is completely equal to RAM8, that is, it can perform random access and store a total of eight 8-bit data. But it has not been unit tested, it has only passed compilation, so it is not yet known whether the actual performance is as expected.
+
+    Input:
+        Address: ad2, ad1, ad0
+        Write: w
+        Read: r
+        Clock: cl
+        Store: st
+        Data: d7, d6, d5, d4, d3, d2, d1, d0
+    Output:
+        Data: a7, a6, a5, a4, a3, a2, a1, a0
+    
+    In use, w input is equal to st to some extent;
+    In use, r input, to simplify, you can make "read" always true (in your own code);
+
+    Because of the new input, the code in the Processor part needs to be modified accordingly.
+
+[2024-03-28]
  + Some unit tests have been completed: all memory parts.
 
 # TODO
@@ -81,8 +100,8 @@
 
 
 ### Processor
-- [x] Combined Memory
-- [x] Instruction
+- [ ] Combined Memory
+- [ ] Instruction
 - [ ] Control Unit
 - [ ] Computer
 - [ ] Input and Output

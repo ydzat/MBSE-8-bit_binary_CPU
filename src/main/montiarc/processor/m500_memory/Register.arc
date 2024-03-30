@@ -1,4 +1,8 @@
 package processor.m500_memory;
+import processor.m000_circuits.AlwaysTrue;
+import processor.m100_logicGates.TriGate;
+import processor.m100_logicGates.ANDGate;
+
 
 // 8 bit
 // input: d7-d0
@@ -18,7 +22,8 @@ component Register {
     port in boolean d0;
 
     port in boolean cl;
-
+    port in boolean w,r;
+    
     port out boolean a7;
     port out boolean a6;
     port out boolean a5;
@@ -27,6 +32,16 @@ component Register {
     port out boolean a2;
     port out boolean a1;
     port out boolean a0;
+
+
+
+    ANDGate and;
+    TriGate tg;
+
+    cl -> and.a;
+    w -> and.b;
+
+    r -> tg.en;
 
     DFF dff7,dff6,dff5,dff4,dff3,dff2,dff1, dff0;
 
@@ -48,21 +63,30 @@ component Register {
     d1 -> dff1.d;
     d0 -> dff0.d;
 
-    cl -> dff7.cl;
-    cl -> dff6.cl;
-    cl -> dff5.cl;
-    cl -> dff4.cl;
-    cl -> dff3.cl;
-    cl -> dff2.cl;
-    cl -> dff1.cl;
-    cl -> dff0.cl;
+    and.out -> dff7.cl;
+    and.out -> dff6.cl;
+    and.out -> dff5.cl;
+    and.out -> dff4.cl;
+    and.out -> dff3.cl;
+    and.out -> dff2.cl;
+    and.out -> dff1.cl;
+    and.out -> dff0.cl;
 
-    dff7.out -> a7;
-    dff6.out -> a6;
-    dff5.out -> a5;
-    dff4.out -> a4;
-    dff3.out -> a3;
-    dff2.out -> a2;
-    dff1.out -> a1;
-    dff0.out -> a0;
+    dff7.out -> tg.di7;
+    dff6.out -> tg.di6;
+    dff5.out -> tg.di5;
+    dff4.out -> tg.di4;
+    dff3.out -> tg.di3;
+    dff2.out -> tg.di2;
+    dff1.out -> tg.di1;
+    dff0.out -> tg.di0;
+
+    tg.do7 -> a7;
+    tg.do6 -> a6;
+    tg.do5 -> a5;
+    tg.do4 -> a4;
+    tg.do3 -> a3;
+    tg.do2 -> a2;
+    tg.do1 -> a1;
+    tg.do0 -> a0;
 }

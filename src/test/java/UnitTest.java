@@ -1,20 +1,18 @@
 /*
  * @Author: Dongze Yang
- * @Date: 2024-03-28 13:57:00
+ * @Date: 2024-03-29 01:43:52
  * @LastEditors: Dongze Yang
- * @LastEditTime: 2024-03-30 16:26:01
+ * @LastEditTime: 2024-03-31 01:38:34
  * @Description: 
  */
 package processor.m500_memory;
 
 // Units
-//import processor.m500_memory.Demo;
 import processor.m500_memory.CombineLatch;
 import processor.m500_memory.DFF;
 import processor.m500_memory.Register;
 import processor.m500_memory.RAM8;
 import processor.m600_processor.Computer;
-//import processor.m600_processor.CombinedMemory;
 
 // Test JUNIT 5
 import org.junit.jupiter.api.Assertions;
@@ -32,12 +30,13 @@ import java.util.ArrayList;
 
 public class UnitTest {
     // declaration
-    //private Demo demo;
     private CombineLatch latch;
     private DFF dff;
     private Register reg;
     private RAM8 ram8;
     private Computer computer;
+
+    //private Calculator calculator;
 
     @BeforeEach
     void setUp(){
@@ -50,15 +49,16 @@ public class UnitTest {
 
     @Test
     public void tester(){
-        //testDemo();
+ 
         /*  Memory  */
-        //testLatch();  // check
-        //testDFF();    // check
-        //testReg();    // check
-        //testRAM();    // check
-        // testRAM8();
+        // testLatch();  // check
+        // testDFF();    // check
+        // testReg();    // check
+        // testRAM();    // check
+        // testRAM8();   // check
+
         /*  Processor  */
-        testComputer();
+        // testComputer(); // check
     }
 
     public void testLatch(){
@@ -71,7 +71,7 @@ public class UnitTest {
          * 1    0   0           default
          * 1    1   1           0
          * 0    1   keep        1
-         * 0    1   keep        1
+         * 0    0   keep        1
          */
 
         // st, d, expectedOut
@@ -93,8 +93,6 @@ public class UnitTest {
             latch.getD().update(input[i][1]);
             latch.compute();
 
-            //System.out.println("Expected Out: " + input[i][2]);
-            //System.out.println("Current Out:  " + latch.getOut().getValue());
             Assertions.assertEquals(input[i][2], latch.getOut().getValue(), "Expected out");
             latch.tick();
         }
@@ -141,8 +139,6 @@ public class UnitTest {
             dff.getCl().update(input[i][2]);
             dff.compute();
 
-            //System.out.println("Expected Out: " + input[i][3]);
-            //System.out.println("Current Out:  " + dff.getOut().getValue());
             Assertions.assertEquals(input[i][3], dff.getOut().getValue(), "Expected out");
             dff.tick();
         }
@@ -158,19 +154,19 @@ public class UnitTest {
             // st, cl, d7, d6, d5, d4, d3, d2, d1, d0, expected a7, a6, a5, a4, a3, a2, a1, a0
             {false, false, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 当st和cl都为0时，所有输出应保持为0
-            {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},  // 当st为0且cl为1时，所有输出应保持为0
-            {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},  // 当st为1且cl为0时，所有输出应保持为0
+                false, false, false, false, false, false, false, false}, 
+            {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},  
+            {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, 
             {true, true, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false},   // 当st和cl都为1且所有数据输入都为0时，所有输出应为0
+                false, false, false, false, false, false, false, false},   
             {true, false,
                 true, true, true, true, true, true, true, true, 
-                false, false, false, false, false, false, false, false},                  // 当st为1且cl为0时，所有输出应保持为0
+                false, false, false, false, false, false, false, false},                  
             
             {true, true, 
                 true, true, true, true, true, true, true, true, 
-                true, true, true, true, true, true, true, true},                  // 当st和cl都为1且所有数据输入都为1时，所有输出应为1
+                true, true, true, true, true, true, true, true},                  
         };
 
         for (int i = 0; i < input.length; i++){
@@ -187,8 +183,6 @@ public class UnitTest {
             reg.getD0().update(input[i][9]);
             reg.compute();
 
-            //System.out.println("Expected Out: " + input[i][3]);
-            //System.out.println("Current Out:  " + dff.getOut().getValue());
             Assertions.assertEquals(input[i][10], reg.getA7().getValue(), "Expected a7");
             Assertions.assertEquals(input[i][11], reg.getA6().getValue(), "Expected a6");
             Assertions.assertEquals(input[i][12], reg.getA5().getValue(), "Expected a5");
@@ -214,63 +208,63 @@ public class UnitTest {
             {false, false, false, 
                 false, false, false, false, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 全部都是false
+                false, false, false, false, false, false, false, false}, 
             {false, false, false, 
                 true, false, false, false, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 改变cl
+                false, false, false, false, false, false, false, false}, 
             {false, false, false, 
                 true, true, false, false, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 改变st
+                false, false, false, false, false, false, false, false}, 
             {false, false, false, 
                 true, true, true, false, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 改变w
+                false, false, false, false, false, false, false, false}, 
             {false, false, false, 
                 true, true, true, true, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 改变r
+                false, false, false, false, false, false, false, false}, 
             {false, false, true, 
                 true, true, true, true, 
                 false, false, false, false, false, false, false, false, 
-                false, false, false, false, false, false, false, false}, // 改变地址
-            // 000 写入 11111111后读取
+                false, false, false, false, false, false, false, false}, 
+
             {false, false, false, 
                 false, true, true, true, 
                 true, true, true, true, true, true, true, true, 
-                false, false, false, false, false, false, false, false}, // 改变数据
+                false, false, false, false, false, false, false, false}, 
             {false, false, false,
                 true, true, true, true,
                 true, true, true, true, true, true, true, true,
-                true, true, true, true, true, true, true, true}, // 改变数据
+                true, true, true, true, true, true, true, true}, 
             // 010 
             {false, true, false, 
                 false, true, true, true, 
                 true, false, true, false, true, false, true, false, 
-                false, false, false, false, false, false, false, false}, // 改变地址
+                false, false, false, false, false, false, false, false}, 
             {false, true, false,
                 true, true, true, true,
                 true, false, true, false, true, false, true, false,
-                true, false, true, false, true, false, true, false}, // 改变数据
+                true, false, true, false, true, false, true, false}, 
             // 101
             {true, false, true,
                 false, true, true, true,
                 false, false, false, true, false, false, true, false,
-                false, false, false, false, false, false, false, false}, // 改变地址
+                false, false, false, false, false, false, false, false}, 
             {true, false, true,
                 true, true, true, true,
                 false, false, false, true, false, false, true, false,
-                false, false, false, true, false, false, true, false}, // 改变数据
+                false, false, false, true, false, false, true, false}, 
             // 110
             {true, true, false,
                 false, true, true, true,
                 false, true, true, false, true, true, true, false,
-                false, false, false, false, false, false, false, false}, // 改变地址
+                false, false, false, false, false, false, false, false}, 
             {true, true, false,
                 true, true, true, true,
                 false, true, true, false, true, true, true, false,
-                false, true, true, false, true, true, true, false}, // 改变数据
+                false, true, true, false, true, true, true, false}, 
             // random access
             // read 010
             {false, true, false,
@@ -321,6 +315,8 @@ public class UnitTest {
             ram8.getAd0().update(input[i][2]);
             ram8.getCl().update(input[i][3]);
             ram8.getSt().update(input[i][4]);
+
+            // There are inputs r and w when designing the circuit, but they are optimized during the implementation process.
             // ram8.getW().update(input[i][5]);
             // ram8.getR().update(input[i][6]);
 
@@ -351,8 +347,6 @@ public class UnitTest {
         computer = new Computer();
         computer.setUp();
         computer.init();
-        // computer.getComponentCu().init();
-        // computer.getComponentMem().init();
 
         boolean[][] input = {
             // cl  i15, i14, i13, i12, i11, i10, i9, i8, i7, i6, i5, i4, i3, i2, i1, i0
@@ -587,27 +581,10 @@ public class UnitTest {
             outputSA[i][5] = computer.getComponentMem().getSa2().getValue();
             outputSA[i][6] = computer.getComponentMem().getSa1().getValue();
             outputSA[i][7] = computer.getComponentMem().getSa0().getValue();
-            
-
-
-            // System.out.print("Output A"+ i +" =   ");
-            // for(int j = 0; j < 8; j++){
-            //     System.out.print(outputA[i][j] + " ");
-            // }
-            // System.out.println("");
-            // System.out.print("Expected A"+ i +" = ");
-            // for(int j = 0; j < 8; j++){
-            //     System.out.print(expectedA[i][j] + " ");
-            // }
-            // System.out.println("");
-
-            
-
+           
             Assertions.assertArrayEquals(expectedA[i], outputA[i], "Expected A "+i);
             Assertions.assertArrayEquals(expectedD[i], outputD[i], "Expected D "+i);
-            Assertions.assertArrayEquals(expectedSA[i], outputSA[i], "Expected ADSA "+i);
-
-
+            Assertions.assertArrayEquals(expectedSA[i], outputSA[i], "Expected SA "+i);
 
 
             // System.out.println("A7 = " + computer.getComponentMem().getComponentRegister_a().getA7().getValue());
@@ -646,7 +623,7 @@ public class UnitTest {
             // System.out.println("SA = " + computer.getComponentMem().getSa().getValue());
             // System.out.println("CL = " + computer.getComponentMem().getCl().getValue());
 
-            // System.out.println("========================Cu=========================");
+            // System.out.println("========================CU=========================");
             // System.out.println("A7 = " + computer.getComponentCu().getA7().getValue());
             // System.out.println("A6 = " + computer.getComponentCu().getA6().getValue());
             // System.out.println("A5 = " + computer.getComponentCu().getA5().getValue());
@@ -774,18 +751,6 @@ public class UnitTest {
             // System.out.println("R1 = " + computer.getComponentCu().getR1().getValue());
             // System.out.println("R0 = " + computer.getComponentCu().getR0().getValue());
             computer.tick();
-            //break;
         }
-        // System.out.println("SA:");
-        // for(int i = 0 ; i < input.length; i++){
-        //     System.out.print("{");
-        //     for(int j = 0; j < 8; j++){
-        //         if (j == 7) System.out.print(outputSA[i][j]);
-        //         else System.out.print(outputSA[i][j] + ", ");
-
-        //     }
-        //     System.out.println("},");
-        // }
     }
-
 }

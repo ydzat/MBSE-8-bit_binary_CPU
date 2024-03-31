@@ -419,12 +419,13 @@ We have here a table to introduce the input and output.
 ![微信图片_20240330015340](https://hackmd.io/_uploads/S1xVT5EJR.png)
 
 #### Data Flip-Flop
+
 We introduce here the DFF component, which can store and output one bit.
 The output change only when the clock signal input (cl) changes from 0 to 1.
 If st=1 at the time of the clock tick, the d-input becomes the new output. Otherwise, the output does not change.
 Changing cl from 1 to 0 does not have any effect on the output.
 Until the first clock tick, output should be 0.
-Effect of inputs at the time of the clock tick:
+Effect of inputs at the time of the clock tick:<span id="jump3"></span>
 | Input | Input   | Effect   | 
 | ----- | ------- | ------- | 
 | **st** | **d** |  |        |
@@ -635,3 +636,120 @@ To implement this special physical feature, we use the powerful tool (or term) i
 2. [Computer](#jump2)
 
 In the arthitecture of computer shown above, there is a in-and output chain cycle between Memory and Control Unit. Again, we use `automation` and `<<delayed>>` to implement this feature,  by simply **deley** the output from memory and init its value which used by the input of control unit.
+
+## Unit Test
+
+``src\test\java\UnitTest.java`` is the unit test file, where lines 11-15 show the units being tested.
+
+File ``src\test\java\IOTest.java`` then shows the final IO case for our CPU model.
+
+We use JUnit 5 for unit testing. Since our final implementation of the model does not contain many modules, we write the tests in separate functions and call them in the only ``@Test`` section to simplify the code structure.
+
+At the beginning of the Memory section, our components all need to take the clock input into account, i.e., the internal data of the component changes only when the clock is on a rising edge, so after each data is passed to the component and computed, ``<object of component>.tick()`` has to be called to allow the component to move to the next time slice.
+
+Similarly, clock changes need to be represented in the production of input data.
+
+### **Computer**
+
+(In file ``src\test\java\UnitTest.java``)
+
+This Computer component, i.e., our CPU, is therefore the most important (and top) test for this part.
+
+The component has in total 17 inputs, which are: 
+
+    cl: Clock
+    i15, i14, i13: Unused.
+    ci: Instruction. 0, Data instruction; 
+                     1, ALU instruction
+    i11: Unused.
+    *: 1, pointer to the address a(sa). 
+       0, not point to sa.
+    u, op1, op0, zx, sw: ALU flag. 
+    a,d,sa: Destination flag.
+    lt, eq, gt: Condition flag.
+
+In this part of the test, we first tested the validity of the input to register a, followed by testing the addition calculation and storing the result into RAM.
+
+To confirm that all the Computer's sub-components are working correctly, we performed a manual trace of the data in lines 590-752 of the test file involving the sub-components CU, AU, ALU, and INSTRUCTION. The final result shows that the data transfer is correct.
+
+### **IO**
+
+(In file ``src\test\java\IOTest.java``)
+
+The code structure in this section is broadly consistent with the previous document.
+
+The code in this section implements the reading of the string computation formula, performs the computation with our CPU model, and outputs the result.
+
+You can find the relevant use case on line 421 of the code.
+
+Our agreed-upon operation symbols:
+
+    +: Addtion. 
+    -: Subtraction (2-53) or Negation
+    &: Per Bitwise AND 
+    |: Per Bitwise OR 
+    ^: Per Bitwise XOR 
+    ~: Per Bitwise NOT
+
+    For example:
+    Input: "15+3", "3-15", "3&1", "4|3", "7^5", "~4","-50"
+    
+Output: 
+
+    Result: 8-bit binary number.
+    LastLocation: The index of the register in RAM that was last accessed.
+    ResultInt: Decimal number.
+
+    // 15+3
+    Result = false false false true false false true false
+    LastLocation = 0
+    ResultInt = 18
+
+    // 3-15
+    Result = true true true true false true false false
+    LastLocation = 1
+    ResultInt = -12
+
+    // 3&1
+    Result = false false false false false false false true
+    LastLocation = 2
+    ResultInt = 1
+
+    // 4|3
+    Result = false false false false false true true true
+    LastLocation = 3
+    ResultInt = 7
+
+    // 7^5
+    Result = false false false false false false true false
+    LastLocation = 4
+    ResultInt = 2
+
+    // ~4
+    Result = true true true true true false true true
+    LastLocation = 5
+    ResultInt = -5
+
+    // -50
+    Result = true true false false true true true false
+    LastLocation = 6
+    ResultInt = -50
+
+    // 1&0
+    Result = false false false false false false false false
+    LastLocation = 7
+    ResultInt = 0
+
+    // 1|0
+    Result = false false false false false false false true
+    LastLocation = 0
+    ResultInt = 1
+
+    // 15-3
+    Result = false false false false true true false false
+    LastLocation = 1
+    ResultInt = 12
+
+You can see that when LastLocation reaches 7, it will go back to 0 the next time. This means that our write operation is cyclic. Our implementation of RAM is capable of holding up to eight 8-bit data, so when more than eight data need to be stored, it goes back to the beginning to overwrite.
+
+In addition, lines 192-228 show that our CPUs still have the potential to perform more computational functions.

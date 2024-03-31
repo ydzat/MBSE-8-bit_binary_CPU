@@ -1,0 +1,78 @@
+package processor.m900_applications;
+
+component Int2Boolean{
+    port in int intNum;
+    port out boolean i15, i14, i13, i12, i11, i10, i9, i8, b7,b6,b5,b4,b3,b2,b1,b0;
+    
+    init {
+        i15 = false;
+        i14 = false;
+        i13 = false;
+        i12 = false;
+        i11 = false;
+        i10 = false;
+        i9 = false;
+        i8 = false;
+        b7 = false;
+        b6 = false;
+        b5 = false;
+        b4 = false;
+        b3 = false;
+        b2 = false;
+        b1 = false;
+        b0 = false;
+    }
+
+    compute {
+        int temp;
+        int left;
+
+        temp = intNum / 2;
+        left = intNum % 2;
+        if (left == 1){
+            b0 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b1 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b2 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b3 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b4 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b5 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b6 = true;
+        }
+
+        left = temp % 2;
+        temp = temp / 2;
+        if (left == 1){
+            b7 = true;
+        }
+    }
+}

@@ -3,7 +3,7 @@
 ## Description of this project
 
 This project aims to simulate a mordern CPU with MVP (minimum viable product). With the help of some open-source schematics 
-(like [NandGame](https://nandgame.com/)) and the powerful ADL Montiarc, we have implemented such CPU which fullfills all the requirements successfully.
+(like [NandGame](https://nandgame.com/)) and the powerful ADL Montiarc, we have implemented such CPU which fullfills all the requirements successfully. Even more， our CPU-model supports most of the features of ll(1) grammar(e.g. recursive, iterative by using operation `jump` and combination of other related ops).
 
 ## Performance Params
 
@@ -44,9 +44,13 @@ This project aims to simulate a mordern CPU with MVP (minimum viable product). W
 
 ## Layer Hierarchy
 ### File Structure
-The CPU is designed and modelled with different layers below. Each layers consists of montiarc components. A layer is the dependency of all the layers below it. `m000_circuits` is the basic layer which has only atomic montiarc components(e.g. RelayDefaultOff, RelayDefaultOn).
+The CPU is designed and modelled with different layers below. Each layers consists of montiarc components. A layer is the dependency of all the layers below it. `m000_circuits` is the basic layer which has only atomic montiarc components(e.g. RelayDefaultOff, RelayDefaultOn). Since our project is a loose coupled system, it is extendable and can be resued by developer outside for further usage.
 
 ![image info](./doc/layer_hierarchy.png "Instruction").
+
+## Components
+
+The components shown below are their physical implementations. Even though this is just a simulation from a software-engineering point of view, our models follow strictly the corresponding physical implementations(e.g. in-and output, connections between components, data length and instruction length). The simulation is meaningless if it is out of touch with reality.
 
 ### Atomic Components (Relays)
 > A relay logic circuit is an electrical network consisting of lines, or rungs, in which each line or rung must have continuity to enable the output device. [WiKi](https://en.wikipedia.org/wiki/Relay_logic#:~:text=A%20relay%20logic%20circuit%20is,each%20rung%20controlling%20an%20output.)

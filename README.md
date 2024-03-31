@@ -59,6 +59,8 @@ Here in our case, it is sufficient to only simulate the in-and output of relays 
 
 Theoretically all components can be decomposed by bunch of relays with specific combinations.
 
+**Notice:** the compinents shown below use 16-bit as data precision and 8-bit is used in our case.   
+
 ### **Logic Gate**
 #### NandGate
 Our task is to connect inputs to output through wires and relays such that when both **a** and **b** inputs are 1, the output is 0.

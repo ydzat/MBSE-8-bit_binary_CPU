@@ -1,15 +1,7 @@
 package processor.m500_memory;
 
 // Units
-//import processor.m500_memory.Demo;
-import processor.m500_memory.CombineLatch;
-import processor.m500_memory.DFF;
-import processor.m500_memory.Register;
-import processor.m500_memory.RAM8;
 import processor.m600_processor.Computer;
-//import processor.m600_processor.CombinedMemory;
-
-
 
 // Test JUNIT 5
 import org.junit.jupiter.api.Assertions;
@@ -25,7 +17,6 @@ import de.se_rwth.commons.logging.LogStub;
 import java.util.stream.Stream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class IOTest {
@@ -156,6 +147,35 @@ public class IOTest {
         {false, true, false, false, false, false, 
             false, false, false, true, false, 
             false, false, false, false, false, false},
+        // D < A
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, true, false, false},
+        // D <= A
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, true, true, false},
+        // D > A
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, false, false, true},
+        // D >= A
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, false, true, true},
+        // D == A
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, false, true, false},
+        // D <> A, which means not equal
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, true, false, true},
+        // JMP
+        {false, true, false, false, false, false, 
+            false, false, false, false, false, 
+            false, false, false, true, true, true}
+        
 
     };
 
@@ -199,6 +219,13 @@ public class IOTest {
         instructionMap.put("-*A", instructions[27]);
         instructionMap.put("*A-1", instructions[28]);
         instructionMap.put("0", instructions[29]);
+        instructionMap.put("D<A", instructions[30]);
+        instructionMap.put("D<=A", instructions[31]);
+        instructionMap.put("D>A", instructions[32]);
+        instructionMap.put("D>=A", instructions[33]);
+        instructionMap.put("D==A", instructions[34]);
+        instructionMap.put("D<>A", instructions[35]);
+        instructionMap.put("JMP", instructions[36]);
 
         this.result = new boolean[8];
         this.resultInt = 0;
@@ -223,26 +250,6 @@ public class IOTest {
         }
 
         System.out.println("ResultInt = " + this.resultInt);
-    }
-
-    public boolean [] op2Stream(String op){
-        boolean [] result = {false, 
-            false, false, false, false, false, false, false, false, 
-            false, false, false, false, false, false, false, false};
-        //System.out.println("op: " + op);
-        // ~
-        if(op.equals("~")){
-            result[1] = true;
-            result[7] = true;
-            result[8] = true;
-            result[10] = true;
-        }
-        if(op.equals("+")){
-            result = instructionMap.get("D+A");
-        }
-
-
-        return result;
     }
 
     public boolean [] num2Stream(String num){
@@ -292,11 +299,6 @@ public class IOTest {
 
     public void transfer2Computer(boolean [] stream, Computer computer, int location, boolean targetA, boolean targetD, boolean targetSA){
 
-        // for (int j = 0; j < 17; j++){
-        //     //System.out.print(String.valueOf(ops[j]) + " ");
-        //     System.out.print(String.valueOf(stream[j]) + " ");
-        // }
-        // System.out.println("");
         computer.getCl().update(stream[0]);
         computer.getI15().update(stream[1]);
         computer.getI14().update(stream[2]);
@@ -426,45 +428,48 @@ public class IOTest {
          */
         String[] input = {
             "15+3",
-            "5+1",
+            // "5+1",
 
-            "15-3",
             "3-15",
-            "5-1",
+            // "5-1",
 
-            "1&1",
-            "1&0",
-            "0&0",
+            // "1&1",
             
-            "5&4",
-            "5&0",
+            // "0&0",
+            
+            // "5&4",
+            // "5&0",
             "3&1",
 
-            "4&1",
+            // "4&1",
 
-            "1|1",
-            "1|0",
-            "0|0",
+            // "1|1",
+            // "0|0",
             
             "4|3",
             
-            "2^3",
-            "2^0",
+            // "2^3",
+            // "2^0",
             "7^5",
-            "~1",
-            "~2",
-            "~3",
-            "~4",
-            "~5",
-            "~6",
-            "~7",
-            "~8",
-            "~9",
 
-            "-2",
-            "-3",
-            "-1",
+            // "~1",
+            // "~2",
+            // "~3",
+            "~4",
+            // "~5",
+            // "~6",
+            // "~7",
+            // "~8",
+            // "~9",
+
+            // "-2",
+            // "-3",
+            // "-1",
             "-50",
+
+            "1&0",
+            "1|0",
+            "15-3"
         };
         int location = 0;
 

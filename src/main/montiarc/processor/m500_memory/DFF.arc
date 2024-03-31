@@ -13,11 +13,6 @@ component DFF {
 
     port out boolean out;
 
-    /*
-    AlwaysTrue t;
-    boolean tmp = false;
-    */
-
     //Latch l0, l1;
     CombineLatch l0,l1;
     ANDGate and0, and1;

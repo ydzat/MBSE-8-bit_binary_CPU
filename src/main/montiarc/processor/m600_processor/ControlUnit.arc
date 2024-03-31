@@ -14,21 +14,7 @@ component ControlUnit {
     port out boolean r7,r6,r5,r4,r3,r2,r1,r0;
     port out boolean a, d, sa;
     port out boolean j;
-    /*
-    init {
-        a = false;
-        d = false;
-        sa = false;
-        r7 = false;
-        r6 = false;
-        r5 = false;
-        r4 = false;
-        r3 = false;
-        r2 = false;
-        r1 = false;
-        r0 = false;
-    }
-    */
+
     AlwaysTrue t;
     Selector8 sel8;
     Selector sel;

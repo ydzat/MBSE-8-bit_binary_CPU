@@ -98,29 +98,4 @@ component Computer {
     mem.sa1 -> deo.sain1;
     mem.sa0 -> deo.sain0;
 
-/*
-    cu.r7 -> cud.in_r7;
-    cu.r6 -> cud.in_r6;
-    cu.r5 -> cud.in_r5;
-    cu.r4 -> cud.in_r4;
-    cu.r3 -> cud.in_r3;
-    cu.r2 -> cud.in_r2;
-    cu.r1 -> cud.in_r1;
-    cu.r0 -> cud.in_r0;
-    cu.a -> cud.in_a;
-    cu.d -> cud.in_d;
-    cu.sa -> cud.in_sa;
-
-    cu.r7 -> cud.in_r7;
-    cu.r6 -> cud.in_r6;
-    cu.r5 -> cud.in_r5;
-    cu.r4 -> cud.in_r4;
-    cu.r3 -> cud.in_r3;
-    cu.r2 -> cud.in_r2;
-    cu.r1 -> cud.in_r1;
-    cu.r0 -> cud.in_r0;
-    cu.a -> cud.in_a;
-    cu.d -> cud.in_d;
-    cu.sa -> cud.in_sa;*/
-
 }

@@ -1,6 +1,31 @@
 # CPU Simulation Using MontiArc Model
-[toc]
+
+## Contributors
+
+- **Dongze Yang** ([@ydzat](https://github.com/ydzat))  
+  *Speaker and Main Developer*
+
+- **Xiangyu Tong** ([@XYTong](https://github.com/XYTong))  
+  *Architect and Slides Maker*
+
+- **Shu Zhang**  
+  *Integrator*
+
+- **Sheng Gu**  
+  *Tester*
+
+## License
+
+> ⚠️ **Academic Integrity Warning**  
+> This project is intended for reference **only**. If you are working on a similar assignment, do **not** copy this repository.  
+
+This work is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/).  
+
 ## Description of this project
+
+This repository contains the final project for the course **Model-based Systems Engineering**.  
+
+The task description is available in the file: `project_task.md`.  
 
 This project aims to simulate a mordern CPU with MVP (minimum viable product). With the help of some open-source schematics 
 (like [NandGame](https://nandgame.com/)) and the powerful ADL Montiarc, we have implemented such CPU which fullfills all the requirements successfully. Even more， our CPU-model supports most of the features of ll(1) grammar(e.g. recursive, iterative by using operation `jump` and combination of other related ops).

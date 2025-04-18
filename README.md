@@ -21,6 +21,12 @@
 
 This work is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/).  
 
+- ✅ You may view and reference the code for learning purposes  
+- ❌ You may NOT use this code for commercial purposes  
+- ❌ You may NOT submit this project (or modified versions) as part of your own coursework
+
+> Link: [https://creativecommons.org/licenses/by-nc-nd/4.0/](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+
 ## Description of this project
 
 This repository contains the final project for the course **Model-based Systems Engineering**.  

@@ -30,6 +30,19 @@ The task description is available in the file: `project_task.md`.
 This project aims to simulate a mordern CPU with MVP (minimum viable product). With the help of some open-source schematics 
 (like [NandGame](https://nandgame.com/)) and the powerful ADL Montiarc, we have implemented such CPU which fullfills all the requirements successfully. Even more， our CPU-model supports most of the features of ll(1) grammar(e.g. recursive, iterative by using operation `jump` and combination of other related ops).
 
+## How to run
+
+This project requires the following environment to build and run:
+
+- Java 11 (tested with Eclipse Adoptium 11.0.26+4)  
+- Gradle 7.6
+
+Make sure you're in the project root directory before running these commands.
+
+- Build the project: `gradle build`
+
+- Run tests: `gradle test`
+
 ## Performance Params
 
 1. Simulated physical params
